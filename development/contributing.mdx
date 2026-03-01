@@ -1,0 +1,554 @@
+---
+title: Contributing Guidelines
+description: How to contribute to the Orbis Galactic Star Wars mod for Hytale
+---
+
+## Getting Started
+
+Welcome to the Orbis Galactic project! This guide will help you understand how to contribute to this Star Wars mod for Hytale.
+
+### Project Information
+
+- **Repository:** https://github.com/Tasty-Syntax/Orbis-Galactic
+- **Version:** 1.4.0
+- **Maintained by:** TastySyntax team (Cerzix, Viluron, Nelayx, Holag)
+
+<Info>
+Before contributing, familiarize yourself with the [Project Structure](/development/structure) to understand how the mod is organized.
+</Info>
+
+## How to Contribute
+
+### Types of Contributions
+
+We welcome various types of contributions:
+
+1. **New Content**
+   - Weapons (lightsabers, blasters, melee weapons)
+   - Blocks and decorations
+   - NPCs and creatures
+   - Planets and environments
+   - Vehicles and speeders
+
+2. **Assets**
+   - 3D models (Blockbench)
+   - Textures and skins
+   - Sound effects and music
+   - Animations
+   - Particle effects
+
+3. **Improvements**
+   - Bug fixes
+   - Performance optimizations
+   - Balance adjustments
+   - Documentation updates
+
+4. **Localization**
+   - Translations to other languages
+   - Text improvements
+
+## Development Environment Setup
+
+### Required Tools
+
+1. **Hytale Modding Tools** (when available)
+2. **Blockbench** - For 3D modeling
+3. **Audio Editor** - For sound creation (Audacity recommended)
+4. **Image Editor** - For texture creation (GIMP, Photoshop, etc.)
+5. **Git** - For version control
+6. **Text Editor/IDE** - For JSON editing (VS Code recommended)
+
+### Repository Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/Tasty-Syntax/Orbis-Galactic.git
+cd Orbis-Galactic
+
+# Create a new branch for your contribution
+git checkout -b feature/your-feature-name
+```
+
+## Contribution Workflow
+
+### 1. Planning Your Contribution
+
+Before starting work:
+
+- Check existing issues and pull requests to avoid duplicate work
+- Open an issue to discuss major changes or new features
+- Review the project structure to understand where your files should go
+- Gather reference materials (Star Wars canon sources)
+
+### 2. Creating Content
+
+Follow these best practices when creating new content:
+
+#### Naming Conventions
+
+<Note>
+All mod-specific content should use the `OrbisGalactic_` prefix to avoid conflicts with base game content and other mods.
+</Note>
+
+**Files and IDs:**
+- Use descriptive, clear names
+- Follow existing naming patterns in the same category
+- Use underscores to separate words: `OrbisGalactic_Item_Name`
+- Include variant descriptors: `_Blue`, `_Red`, `_Variant1`
+
+**Example naming patterns:**
+```
+OrbisGalactic_SFX_Lightsaber_Attack_Blue_Local
+Bench_Laser_Weapon_Crafter
+Blaster_DC15A
+OrbisGalactic_Kyber_Crystal_Clear
+```
+
+#### File Organization
+
+**Models and Textures:**
+```
+# Weapon example
+Common/Items/Weapons/Blaster_NewWeapon/
+├── Blaster_NewWeapon_Model.blockymodel
+└── Blaster_NewWeapon_Texture.png
+
+# Also store in Resources for organization
+Common/Resources/WeaponModels/Blaster_NewWeapon_Model.blockymodel
+Common/Resources/WeaponTextures/Blaster_NewWeapon_Texture.png
+```
+
+**Sounds:**
+```
+# Audio file
+Common/Sounds/Weapons/NewWeapon/NewWeapon_Fire.ogg
+
+# Sound event configuration
+Server/Audio/SoundEvents/SFX/NewWeapon/OrbisGalactic_SFX_NewWeapon_Fire.json
+```
+
+**Configuration:**
+```
+# Item definition
+Server/Item/Items/Orbis Galactic/NewItem.json
+
+# Translations
+Server/Languages/en-US/items.json
+```
+
+### 3. Creating Models
+
+#### Blockbench Workflow
+
+1. **Create your model in Blockbench**
+   - Follow Star Wars aesthetic and proportions
+   - Keep polygon count reasonable for performance
+   - Use appropriate pivot points for animations
+
+2. **Save source file**
+   - Location: `Common/Resources/Blockbench Files/`
+   - Naming: `[ItemName].bbmodel`
+
+3. **Export for Hytale**
+   - Export as `.blockymodel`
+   - Location: `Common/Resources/[Type]Models/`
+   - Test in-game to verify appearance
+
+4. **Create textures**
+   - Resolution: Use appropriate size (typically 16x16, 32x32, or 64x64)
+   - Format: PNG with transparency support
+   - Location: `Common/Resources/[Type]Textures/`
+
+<Info>
+Keep source `.bbmodel` files so other contributors can modify models if needed. Always export to both the item directory and Resources directory.
+</Info>
+
+### 4. Adding Sounds
+
+#### Audio Requirements
+
+- **Format:** OGG Vorbis
+- **Sample Rate:** 44.1 kHz recommended
+- **Bit Depth:** 16-bit minimum
+- **Channels:** Mono for positional sounds, Stereo for music
+
+#### Audio Workflow
+
+1. **Prepare audio file**
+   ```bash
+   # Use the normalization script for consistent volume
+   scripts/normalize_audio.sh your_audio.wav
+   ```
+
+2. **Place audio file**
+   - Location: `Common/Sounds/[Category]/[Subcategory]/`
+   - Example: `Common/Sounds/Weapons/Lightsaber/Blue/Lightsaber_Ignite_Blue_Local.ogg`
+
+3. **Create sound event**
+   - Location: `Server/Audio/SoundEvents/[Category]/`
+   - Reference the audio file path
+   
+   Example JSON structure:
+   ```json
+   {
+     "Volume": 0,
+     "PreventSoundInterruption": false,
+     "AudioCategory": "AudioCat_Sword",
+     "Layers": [
+       {
+         "Files": [
+           "Sounds/Weapons/NewWeapon/NewWeapon_Fire.ogg"
+         ],
+         "Volume": 0,
+         "StartDelay": 0
+       }
+     ],
+     "Parent": "SFX_Attn_Moderate"
+   }
+   ```
+
+4. **Link to item/block**
+   - Reference the sound event ID in your item JSON
+   - Test in-game to verify playback
+
+### 5. Creating Item Definitions
+
+#### Item JSON Structure
+
+Item definitions go in `Server/Item/Items/[Category]/[ItemName].json`
+
+Key sections to include:
+
+**Translation Properties:**
+```json
+"TranslationProperties": {
+  "Name": "server.items.Category_ItemName.name",
+  "Description": "server.items.Category_ItemName.description"
+}
+```
+
+**Visual Properties:**
+```json
+"Icon": "Icons/ItemsGenerated/ItemName.png",
+"IconProperties": {
+  "Scale": 0.4,
+  "Rotation": [21, 32, 19],
+  "Translation": [16, -9]
+}
+```
+
+**Categories:**
+```json
+"Categories": [
+  "OrbisGalactic.Weapons",
+  "OrbisGalactic.Lightsabers"
+]
+```
+
+**Crafting Recipe:**
+```json
+"Recipe": {
+  "TimeSeconds": 4,
+  "Input": [
+    {
+      "ItemId": "OrbisGalactic_Kyber_Crystal_Clear",
+      "Quantity": 1
+    }
+  ],
+  "BenchRequirement": [
+    {
+      "Type": "Crafting",
+      "Categories": ["Lightsaber_Crafting"],
+      "Id": "Bench_Laser_Weapon_Crafter",
+      "RequiredTierLevel": 1
+    }
+  ]
+}
+```
+
+<Note>
+See `Server/Item/Items/Benches/Bench_Laser_Weapon_Crafter.json` for a complete, real-world example of an item definition.
+</Note>
+
+**Block Properties (for placeable items):**
+```json
+"BlockType": {
+  "Material": "Solid",
+  "DrawType": "Model",
+  "Opacity": "Transparent",
+  "CustomModel": "Resources/PropModels/ModelName.blockymodel",
+  "CustomModelTexture": [
+    {
+      "Texture": "Resources/PropTextures/TextureName.png",
+      "Weight": 1
+    }
+  ],
+  "VariantRotation": "NESW",
+  "BlockSoundSetId": "Stone"
+}
+```
+
+### 6. Adding Translations
+
+All text content must be localized in `Server/Languages/en-US/`
+
+```json
+{
+  "server.items.Weapon_Lightsaber_Blue.name": "Blue Lightsaber",
+  "server.items.Weapon_Lightsaber_Blue.description": "An elegant weapon for a more civilized age."
+}
+```
+
+For new languages, create a new directory (e.g., `Server/Languages/es-ES/`) following the same structure.
+
+### 7. Testing Your Changes
+
+<Info>
+Always test your contributions in-game before submitting a pull request.
+</Info>
+
+**Testing checklist:**
+- [ ] Models display correctly in-game
+- [ ] Textures load without errors
+- [ ] Sounds play at appropriate volume and timing
+- [ ] Items can be crafted with correct recipes
+- [ ] Blocks can be placed and broken
+- [ ] Translations display correctly
+- [ ] No console errors or warnings
+- [ ] Performance is acceptable
+- [ ] Interactions work as intended
+
+### 8. Submitting Your Contribution
+
+#### Commit Guidelines
+
+**Write clear commit messages:**
+```bash
+# Good commit messages
+git commit -m "Add blue lightsaber variant with custom sound effects"
+git commit -m "Fix blaster projectile speed and damage values"
+git commit -m "Update Tatooine prefab with additional details"
+
+# Bad commit messages
+git commit -m "update"
+git commit -m "fixes"
+git commit -m "WIP"
+```
+
+**Commit message format:**
+```
+[Type]: Brief description
+
+Detailed explanation if needed:
+- What was changed
+- Why it was changed
+- Any breaking changes or considerations
+```
+
+**Types:**
+- `Add:` New features or content
+- `Fix:` Bug fixes
+- `Update:` Improvements to existing content
+- `Remove:` Deletion of content
+- `Docs:` Documentation changes
+- `Refactor:` Code restructuring
+
+#### Pull Request Process
+
+1. **Prepare your branch**
+   ```bash
+   # Make sure you're up to date
+   git fetch origin
+   git rebase origin/main
+   
+   # Push your changes
+   git push origin feature/your-feature-name
+   ```
+
+2. **Create pull request**
+   - Go to GitHub repository
+   - Click "New Pull Request"
+   - Select your branch
+   - Fill out the PR template
+
+3. **PR Description should include:**
+   - **What:** What does this PR add/change/fix?
+   - **Why:** Why is this change needed?
+   - **How:** How does it work?
+   - **Testing:** What testing was done?
+   - **Screenshots/Videos:** Visual changes should include media
+   - **References:** Link to related issues
+
+4. **Address review feedback**
+   - Respond to comments
+   - Make requested changes
+   - Push updates to your branch
+   - Re-request review when ready
+
+## Content Guidelines
+
+### Star Wars Canon Adherence
+
+<Note>
+While we aim for authenticity, gameplay and fun take priority over strict canon adherence. Creative interpretations are welcome!
+</Note>
+
+**Guidelines:**
+- Research reference materials from Star Wars media
+- Maintain consistent visual style with existing content
+- Respect the lore and setting
+- Balance game mechanics with thematic authenticity
+
+### Balance Considerations
+
+**Weapons:**
+- Lightsabers should feel powerful but not overpowered
+- Blasters should have distinct roles (sniper, assault, pistol)
+- Consider range, damage, fire rate, and resource costs
+
+**Crafting:**
+- Recipes should require appropriate materials
+- Progression should feel rewarding
+- Rare items should have rare ingredients
+- Consider bench tier requirements
+
+**Blocks and Decorations:**
+- Should fit the Star Wars aesthetic
+- Consider practical building use cases
+- Provide variety within categories
+
+### Quality Standards
+
+**Models:**
+- Clean topology
+- Appropriate detail level for game performance
+- Proper UV mapping
+- Consistent scale with existing items
+
+**Textures:**
+- Consistent art style
+- Appropriate resolution
+- Use of transparency where needed
+- Optimized file size
+
+**Sounds:**
+- Clear, high-quality audio
+- Appropriate volume levels
+- No clipping or distortion
+- Proper format and sample rate
+
+**Code/JSON:**
+- Valid JSON syntax
+- Consistent formatting (2-space indentation)
+- Commented where necessary
+- Follow existing patterns
+
+## Common Tasks
+
+### Adding a New Lightsaber
+
+1. **Create the model and texture**
+   - Blockbench file: `Common/Resources/Blockbench Files/Lightsaber_[Name].bbmodel`
+   - Export model: `Common/Resources/WeaponModels/Lightsaber_[Name].blockymodel`
+   - Create texture: `Common/Resources/WeaponTextures/Lightsaber_[Name].png`
+
+2. **Add sounds**
+   - Place audio files in: `Common/Sounds/Weapons/Lightsaber/[Color]/`
+   - Create sound events for: equip, unequip, attack, charged attack, hum
+   - Location: `Server/Audio/SoundEvents/SFX/Lightsabers/[Color]/`
+
+3. **Create item definition**
+   - File: `Server/Item/Items/Orbis Galactic/Lightsaber_[Name].json`
+   - Include weapon stats, crafting recipe, sound references
+   - Set appropriate bench requirement (Bench_Laser_Weapon_Crafter)
+
+4. **Add translations**
+   - In `Server/Languages/en-US/items.json`
+   - Include name and description
+
+5. **Create animation** (if custom)
+   - Animation file: `Common/Resources/Animations/Lightsaber_[Name]_Animation.json`
+   - Reference in item definition
+
+### Adding a New Block
+
+1. **Create model and texture**
+   - Model: `Common/Resources/BlockModels/[BlockName].blockymodel`
+   - Texture: `Common/Resources/BlockTextures/[BlockName].png`
+
+2. **Define block item**
+   - File: `Server/Item/Items/[Category]/[BlockName].json`
+   - Include BlockType properties, gathering info, support requirements
+
+3. **Add block sounds** (if custom)
+   - Place audio: `Common/Sounds/Blocks/[BlockName]/`
+   - Create sound event: `Server/Audio/SoundEvents/BlockSounds/`
+   - Or use existing: `"BlockSoundSetId": "Stone"`
+
+4. **Create icon**
+   - Generate or create: `Common/Icons/ItemsGenerated/[BlockName].png`
+
+5. **Add translations**
+   - Name and description in language files
+
+### Adding a New NPC
+
+1. **Create model**
+   - Model: `Common/NPC/Intelligent/[NPCName]/`
+   - Model config: `Server/Models/NPC/[NPCName].json`
+
+2. **Add sounds**
+   - Idle, move, conversation sounds: `Common/Sounds/NPC/[NPCName]/`
+   - Sound events: `Server/Audio/SoundEvents/SFX/NPC/[NPCName]/`
+
+3. **Define NPC behavior**
+   - Attitude: `Server/NPC/Attitude/[NPCName].json`
+   - Role: `Server/NPC/Roles/[NPCName].json`
+   - Group (if applicable): `Server/NPC/Groups/[GroupName].json`
+
+4. **Create spawner egg**
+   - Egg item: `Server/Item/Items/EggSpawner/[NPCName].json`
+
+5. **Add loot table**
+   - Drops: `Server/Drops/NPC/[NPCName].json`
+
+## Getting Help
+
+If you need assistance:
+
+1. **Check Documentation**
+   - Read the [Project Structure](/development/structure) guide
+   - Review existing similar content as examples
+
+2. **Ask Questions**
+   - Open a GitHub issue with the "question" label
+   - Provide context and what you've already tried
+
+3. **Join Community**
+   - Check the repository discussions
+   - Connect with other contributors
+
+## Code of Conduct
+
+- Be respectful and constructive
+- Welcome newcomers and help them learn
+- Credit sources and inspiration
+- Follow licensing requirements
+- Collaborate openly and transparently
+
+## Attribution
+
+When contributing assets or code from external sources:
+
+- Ensure you have rights to use the content
+- Provide attribution in commit messages or documentation
+- Respect Star Wars intellectual property (for fan-made, non-commercial use)
+- Credit original creators of adapted or modified content
+
+<Info>
+This is a fan-made mod for educational and entertainment purposes. Always respect intellectual property rights and fair use guidelines.
+</Info>
+
+## Thank You!
+
+Thank you for contributing to Orbis Galactic! Your efforts help bring the Star Wars universe to Hytale. May the Force be with you!

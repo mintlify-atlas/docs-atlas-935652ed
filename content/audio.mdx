@@ -1,0 +1,283 @@
+---
+title: Audio
+description: Sound effects and music in Orbis Galactic including lightsaber sounds, blaster effects, and ambient music
+---
+
+Orbis Galactic features an immersive audio experience with authentic Star Wars sound effects and music.
+
+## Lightsaber sounds
+
+Each lightsaber action produces iconic sounds that vary by crystal color.
+
+### Sound categories
+
+<Tabs>
+  <Tab title="Ignition">
+    **Sound event:** `OrbisGalactic_SFX_Lightsaber_Equip_[Color]_Local`
+    
+    The distinctive snap-hiss when activating your lightsaber.
+    
+    **Available colors:** Blue, Green, Red, Gold, Purple, Orange, White
+    
+    **Example:** `OrbisGalactic_SFX_Lightsaber_Equip_Blue_Local`
+  </Tab>
+  <Tab title="Hum">
+    **Sound event:** `OrbisGalactic_SFX_Lightsaber_Hum_[Color]_Local`
+    
+    The constant hum while your lightsaber is active.
+    
+    **Audio properties:**
+    - Volume: 10
+    - Category: AudioCat_Sword
+    - Layer volume adjustment: -15 dB
+    - Prevent sound interruption: false
+    
+    **Example file:** `Sounds/Weapons/Lightsaber/Blue/Lightsaber_Blue_Idle_Local.ogg`
+  </Tab>
+  <Tab title="Retraction">
+    **Sound event:** `OrbisGalactic_SFX_Lightsaber_Unequip_[Color]_Local`
+    
+    The sound when deactivating your lightsaber blade.
+  </Tab>
+  <Tab title="Attacks">
+    **Sound events:**
+    - Normal attack: `OrbisGalactic_SFX_Lightsaber_Attack_[Color]_Local`
+    - Charged attack: `OrbisGalactic_SFX_Lightsaber_Charged_Attack_[Color]_Local`
+    - Collision: `OrbisGalactic_SFX_Lightsaber_Collision_Local`
+    
+    Whoosh and crackle sounds during combat.
+  </Tab>
+</Tabs>
+
+### Darksaber sounds
+
+The Darksaber has unique audio separate from standard lightsabers:
+
+- **Equip:** `OrbisGalactic_SFX_Darksaber_Equip`
+- **Hum:** `OrbisGalactic_SFX_Darksaber_Hum`
+- **Attack:** `OrbisGalactic_SFX_Darksaber_Attack`
+- **Charged attack:** `OrbisGalactic_SFX_Darksaber_Charged_Attack`
+- **Unequip:** `OrbisGalactic_SFX_Darksaber_Unequip`
+
+<Info>
+  The Darksaber's unstable blade produces a distinctive, harsher sound compared to traditional lightsaber crystals.
+</Info>
+
+## Blaster sounds
+
+### Weapon firing
+
+**Cycler Rifle:** `SFX_Blaster_Shoot_Cycler_Rifle`
+
+High-powered single-shot sound for the Tusken Raider weapon.
+
+**Blaster shots:** `SFX_Blaster_Shoot_Red`
+
+Standard blaster bolt firing sound.
+
+## Environmental audio
+
+### Tatooine
+
+Desert ambience and wind sounds create the atmosphere of the harsh twin-sun world.
+
+### Ilum
+
+Frozen tundra ambience with howling winds and ice sounds.
+
+### Spaceship
+
+<Accordion title="Spaceship ambient sounds">
+  **Background ambience:** `AmbFX_Spaceship_Background`
+  
+  **File location:** `Server/Audio/AmbienceFX/Ambience/Zone1/Global/Sunrise/AmbFX_Spaceship_Background.json`
+  
+  Constant mechanical hum and engine sounds throughout the ship.
+</Accordion>
+
+<Accordion title="Spaceship events">
+  **Ambient effects:** `Spaceship_SFX_Ambience`
+  
+  General atmospheric sounds within the ship.
+  
+  **Command center idle:** `Spaceship_SFX_CommandCenter_Idle`
+  
+  Control panel beeps and electronic sounds.
+  
+  **Ship entry:** `OrbisGalactic_Spaceship_Enter`
+  
+  Airlock and door sounds when boarding.
+  
+  **Ship landing:** `SFX_OrbisGalactic_Spaceship_Land`
+  
+  Engines powering down as the ship touches ground.
+</Accordion>
+
+## Music
+
+### Cantina Band
+
+**Music event:** `Cantina_Band`
+
+**File location:** `Server/Audio/SoundEvents/Music/Cantina_Band.json`
+
+The iconic Star Wars cantina music featuring two variations:
+
+```json
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Music/Star Wars Cantina Band 1.ogg",
+        "Sounds/Music/Star Wars Cantina Band 2.ogg"
+      ],
+      "Looping": true,
+      "RoundRobinHistorySize": 1,
+      "Volume": 4.28
+    }
+  ],
+  "MaxDistance": 46,
+  "MaxInstance": 1,
+  "StartAttenuationDistance": 15,
+  "AmbientDuckingVolume": -5,
+  "MusicDuckingVolume": -30,
+  "AudioCategory": "AudioCat_Music"
+}
+```
+
+#### Music properties
+
+- **Looping:** Yes
+- **Max distance:** 46 blocks
+- **Attenuation starts:** 15 blocks
+- **Max instances:** 1 (prevents overlapping)
+- **Round robin:** Alternates between two versions
+- **Ambient ducking:** -5 dB (lowers ambient sounds)
+- **Music ducking:** -30 dB (lowers other music)
+
+<Tip>
+  The cantina music uses ducking to automatically lower other audio when it plays, ensuring you can always hear the band clearly.
+</Tip>
+
+## Block sounds
+
+### Imperial blast doors
+
+**Opening:** `OrbisGalactic_SFX_Imperial_Blast_Door_Open`
+
+**Closing:** `OrbisGalactic_SFX_Imperial_Blast_Door_Close`
+
+Mechanical hydraulic sounds for large Imperial doors.
+
+### Lighting
+
+**Lamp on:** `SFX_Lamp_On`
+
+**Lamp off:** `SFX_Lamp_Off`
+
+**Imperial lamp:** `OrbisGalactic_Block_Imperial_Lamp_SFX`
+
+Electronic activation sounds for various light sources.
+
+## Weather sounds
+
+### Hyperwarp
+
+**Sound event:** `SFX_OrbisGalactic_Hyperwarp`
+
+The distinctive sound of entering hyperspace.
+
+**File location:** `Server/Audio/SoundEvents/Environments/Weather/SFX_OrbisGalactic_Hyperwarp.json`
+
+## Audio categories
+
+Sounds are organized into categories for volume control:
+
+<CardGroup cols={3}>
+  <Card title="Weapons" icon="swords">
+    **AudioCat_Sword**
+    
+    Lightsabers and melee weapons
+  </Card>
+  <Card title="Music" icon="music">
+    **AudioCat_Music**
+    
+    Background music and themes
+  </Card>
+  <Card title="Ambient" icon="volume">
+    **Ambient sounds**
+    
+    Environmental atmosphere
+  </Card>
+</CardGroup>
+
+## Audio implementation
+
+### Sound events
+
+Sound events are JSON files that define:
+
+<Tabs>
+  <Tab title="Layers">
+    Multiple audio files can be layered together:
+    
+    ```json
+    "Layers": [
+      {
+        "Files": ["sound1.ogg"],
+        "Volume": -15
+      }
+    ]
+    ```
+  </Tab>
+  <Tab title="Distance">
+    **MaxDistance:** How far the sound travels
+    
+    **StartAttenuationDistance:** When volume begins to decrease
+    
+    Example: Cantina music can be heard up to 46 blocks away.
+  </Tab>
+  <Tab title="Ducking">
+    **AmbientDuckingVolume:** How much to lower ambient sounds
+    
+    **MusicDuckingVolume:** How much to lower other music
+    
+    Ensures important sounds are always audible.
+  </Tab>
+  <Tab title="Instances">
+    **MaxInstance:** Maximum simultaneous plays
+    
+    Prevents audio overlap and performance issues.
+  </Tab>
+</Tabs>
+
+### Item sounds
+
+**Lightsaber sounds:** `Server/Audio/ItemSounds/OrbisGalactic_Sounds_Lightsaber.json`
+
+Defines which sounds play for lightsaber interactions.
+
+### File formats
+
+All audio files use the `.ogg` format for optimal compression and quality.
+
+**Example paths:**
+- `Sounds/Weapons/Lightsaber/Blue/Lightsaber_Blue_Idle_Local.ogg`
+- `Sounds/Music/Star Wars Cantina Band 1.ogg`
+
+<Warning>
+  Sound events with `"PreventSoundInterruption": false` can be interrupted by other sounds. Critical audio should set this to `true`.
+</Warning>
+
+## Customization
+
+You can customize audio by:
+
+1. Adjusting volume levels in sound event JSON files
+2. Replacing `.ogg` files with your own recordings
+3. Modifying distance and attenuation settings
+4. Adding new sound layers to existing events
+
+<Info>
+  Each lightsaber color has its own complete sound set, allowing for unique audio experiences based on your crystal choice.
+</Info>

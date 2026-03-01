@@ -1,0 +1,293 @@
+---
+title: Audio Normalization
+description: Using the normalize_audio.sh script to standardize audio levels
+---
+
+The Orbis Galactic mod includes a Bash script for normalizing audio files to ensure consistent volume levels across all sound effects. This prevents some sounds from being too quiet or too loud.
+
+## Overview
+
+The `normalize_audio.sh` script uses FFmpeg to:
+1. Remove DC offset (unwanted baseline shift in audio)
+2. Detect the peak volume level
+3. Apply gain to bring audio to -1.0 dB target level
+4. Process all `.ogg` files in a directory
+
+## File Location
+
+```
+scripts/
+└── normalize_audio.sh
+```
+
+## Audio Structure
+
+Orbis Galactic organizes audio files in:
+
+```
+Server/Audio/
+├── AmbienceFX/          # Ambient sound effects
+├── ItemSounds/          # Item-specific sounds (drop, drag)
+└── SoundEvents/         # Event-triggered sounds
+    ├── Ambience/        # Ambient loops
+    ├── BlockSounds/     # Block interaction sounds
+    ├── Environments/    # Environmental effects
+    ├── Music/           # Music tracks
+    └── SFX/            # Sound effects
+```
+
+## Usage
+
+### Basic Syntax
+
+```bash
+./scripts/normalize_audio.sh [--in-place] <input_dir> [output_dir]
+```
+
+### Parameters
+
+<ParamField path="input_dir" type="string" required>
+  Directory containing `.ogg` files to normalize.
+  
+  Example: `Server/Audio/SoundEvents/SFX/Lightsabers/`
+</ParamField>
+
+<ParamField path="output_dir" type="string">
+  Directory where normalized files will be saved.
+  
+  - If omitted and `--in-place` is not used, defaults to `<input_dir>/normalized`
+  - Ignored if `--in-place` flag is set
+</ParamField>
+
+<ParamField path="--in-place" type="flag">
+  Normalize files directly in the input directory, overwriting originals.
+  
+  <Warning>
+    This permanently modifies your original files. Make backups before using this option!
+  </Warning>
+</ParamField>
+
+## Examples
+
+### Normalize to New Directory
+
+Process files and save normalized versions to a separate folder:
+
+```bash
+./scripts/normalize_audio.sh Server/Audio/SoundEvents/SFX/Lightsabers/
+```
+
+This creates:
+```
+Server/Audio/SoundEvents/SFX/Lightsabers/
+├── lightsaber_hum.ogg              # Original
+├── lightsaber_ignite.ogg           # Original
+└── normalized/                     # Output directory
+    ├── lightsaber_hum.ogg          # Normalized
+    └── lightsaber_ignite.ogg       # Normalized
+```
+
+### Custom Output Directory
+
+Specify exactly where normalized files should go:
+
+```bash
+./scripts/normalize_audio.sh Server/Audio/SoundEvents/SFX/Blasters/ Server/Audio/Normalized/Blasters/
+```
+
+### In-Place Normalization
+
+Replace original files with normalized versions:
+
+```bash
+./scripts/normalize_audio.sh --in-place Server/Audio/SoundEvents/Music/
+```
+
+<Warning>
+  Always backup your audio files before using `--in-place` mode. This operation cannot be undone!
+</Warning>
+
+### Batch Process Multiple Directories
+
+Normalize all sound effect categories:
+
+```bash
+#!/bin/bash
+
+# Normalize all SFX subdirectories
+for dir in Server/Audio/SoundEvents/SFX/*/; do
+  echo "Processing: $dir"
+  ./scripts/normalize_audio.sh "$dir"
+done
+```
+
+## How It Works
+
+### Step 1: DC Offset Removal
+
+The script first removes DC offset, which is an unwanted baseline shift in the audio waveform:
+
+```bash
+-af "dcshift=0,volumedetect"
+```
+
+### Step 2: Peak Detection
+
+FFmpeg analyzes the audio to find the maximum volume level:
+
+```bash
+PEAK=$(ffmpeg -i "$INPUT_FILE" \
+  -af "dcshift=0,volumedetect" \
+  -f null - 2>&1 \
+  | grep "max_volume" \
+  | awk '{print $5}')
+```
+
+Example output:
+```
+Detected peak: -8.2 dB
+```
+
+### Step 3: Gain Calculation
+
+The script calculates how much gain to apply to reach -1.0 dB:
+
+```bash
+GAIN=$(awk "BEGIN { print -1.0 - ($PEAK) }")
+```
+
+For a peak of -8.2 dB:
+```
+Applying gain: 7.2 dB
+```
+
+### Step 4: Apply Normalization
+
+FFmpeg processes the file with DC removal and gain adjustment:
+
+```bash
+ffmpeg -y -i "$INPUT_FILE" \
+  -af "dcshift=0,volume=${GAIN}dB" \
+  "$OUTPUT_FILE"
+```
+
+## Target Level
+
+The script normalizes all audio to **-1.0 dB**:
+
+- Provides headroom to prevent clipping
+- Ensures consistent volume across all sounds
+- Leaves room for in-game audio mixing
+
+<Note>
+  -1.0 dB is just below the maximum (0 dB) to prevent distortion while maximizing perceived loudness.
+</Note>
+
+## Requirements
+
+<ParamField path="FFmpeg" type="dependency" required>
+  The script requires FFmpeg to be installed and available in your PATH.
+  
+  Install on Ubuntu/Debian:
+  ```bash
+  sudo apt-get install ffmpeg
+  ```
+  
+  Install on macOS:
+  ```bash
+  brew install ffmpeg
+  ```
+  
+  Install on Windows:
+  Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+</ParamField>
+
+## Script Output
+
+The script provides detailed progress information:
+
+```
+----------------------------------------
+Normalizing: lightsaber_hum.ogg
+Detected peak: -6.3 dB
+Applying gain: 5.3 dB
+Done: Server/Audio/SoundEvents/SFX/Lightsabers/normalized/lightsaber_hum.ogg
+----------------------------------------
+Normalizing: lightsaber_ignite.ogg
+Detected peak: -4.1 dB
+Applying gain: 3.1 dB
+Done: Server/Audio/SoundEvents/SFX/Lightsabers/normalized/lightsaber_ignite.ogg
+========================================
+All files normalized
+```
+
+## Best Practices
+
+### Before Normalization
+
+<Tip>
+  Always keep backups of your original audio files before normalizing, especially when using `--in-place`.
+</Tip>
+
+### When to Normalize
+
+- After adding new sound effects
+- When sounds have inconsistent volume levels
+- Before releasing a mod update
+- After editing audio in external tools
+
+### When NOT to Normalize
+
+<Warning>
+  Don't normalize:
+  - Audio files that are intentionally quiet (whispers, distant sounds)
+  - Music tracks with intentional dynamic range
+  - Already normalized files (normalizing twice can degrade quality)
+</Warning>
+
+### Testing
+
+After normalization:
+1. Test sounds in-game to verify volume levels
+2. Check that quiet sounds aren't too loud
+3. Ensure loud sounds don't clip or distort
+4. Verify ambient sounds maintain proper balance
+
+## Troubleshooting
+
+### "Failed to detect peak"
+
+This error occurs if FFmpeg cannot analyze the file:
+- Verify the file is a valid `.ogg` file
+- Check that the file isn't corrupted
+- Ensure FFmpeg is properly installed
+
+### Files Too Quiet After Normalization
+
+If normalized files seem too quiet:
+- The original recording may have very low levels
+- Consider re-recording or amplifying in an audio editor first
+- Check that the source audio has adequate signal
+
+### Files Distorting After Normalization
+
+If you hear distortion:
+- The original file may have already been at or near maximum volume
+- Check the "Detected peak" value - if it's near 0 dB, the file was already loud
+- Consider lowering the target level by modifying the script
+
+## Customization
+
+You can modify the target level by editing line 72 of the script:
+
+```bash
+# Original: targets -1.0 dB
+GAIN=$(awk "BEGIN { print -1.0 - ($PEAK) }")
+
+# Modified: targets -3.0 dB for more headroom
+GAIN=$(awk "BEGIN { print -3.0 - ($PEAK) }")
+```
+
+<Tip>
+  Lower target levels (e.g., -3.0 dB) provide more headroom but result in quieter files. Higher levels (e.g., -0.5 dB) maximize loudness but increase clipping risk.
+</Tip>

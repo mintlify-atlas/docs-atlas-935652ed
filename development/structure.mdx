@@ -1,0 +1,338 @@
+---
+title: Project Structure
+description: Understanding the Orbis Galactic mod directory organization and file structure
+---
+
+## Overview
+
+The Orbis Galactic mod follows Hytale's standard mod structure with a clear separation between client-side and server-side assets. The mod is organized into three main directories:
+
+- **Common/** - Client-side assets (models, textures, sounds)
+- **Server/** - Server-side configurations and game logic
+- **scripts/** - Utility scripts for development
+
+<Note>
+The `manifest.json` file at the root defines the mod metadata including version, authors, and dependencies.
+</Note>
+
+## Common Directory
+
+The `Common/` directory contains all client-side visual and audio assets that players will see and hear.
+
+### Resources Subdirectory
+
+The `Common/Resources/` directory is the primary location for all raw asset files:
+
+```
+Common/Resources/
+├── Animations/          # JSON animation files (e.g., Lightsaber_Animation.json)
+├── Audio/               # Raw audio files
+├── BlockModels/         # .blockymodel and .bbmodel files
+├── BlockTextures/       # PNG textures for blocks
+├── Blockbench Files/    # Source Blockbench project files
+├── ClothingModels/      # Character clothing models
+├── ClothingTextures/    # Clothing texture files
+├── ItemModels/          # Item 3D models
+├── ItemTextures/        # Item texture files
+├── PropModels/          # Prop and decoration models
+├── PropTextures/        # Prop texture files
+├── WeaponModels/        # Weapon model files
+└── WeaponTextures/      # Weapon texture files
+```
+
+<Info>
+Model files use the `.blockymodel` format for Hytale's model system, while `.bbmodel` files are Blockbench source files that should be converted before use.
+</Info>
+
+### Content Directories
+
+Other directories in `Common/` organize content by type:
+
+- **Blocks/** - Block definitions and structure-related blocks
+- **Characters/** - Character models and animations
+- **Cosmetics/** - Cosmetic items (Hands/, Head/ subdirectories)
+- **Icons/** - UI icons organized by category:
+  - `CraftingCategories/` - Crafting menu category icons
+  - `ItemCategories/` - Item categorization icons
+  - `ItemsGenerated/` - Auto-generated item icons
+  - `ModelsGenerated/` - Auto-generated model previews
+- **Items/** - Item definitions:
+  - `Consumables/` - Consumable items
+  - `Projectiles/` - Projectile definitions
+  - `Weapons/` - Weapon items (e.g., Blaster_DC15A/, Blaster_CyclerRifle/)
+- **NPC/** - NPC models and definitions:
+  - `Intelligent/` - Smart NPCs
+  - `Speeder_Bike/` - Vehicle NPCs
+  - `Vehicles/` - Other vehicle types
+- **Particles/** - Particle effects and textures
+- **Sky/** - Skybox and atmospheric effects
+- **Sounds/** - Sound files organized by type:
+  - `Ambience/` - Ambient sounds
+  - `Blocks/` - Block interaction sounds
+  - `Environments/` - Environmental audio
+  - `Music/` - Background music
+  - `NPC/` - NPC sound effects
+  - `Weapons/` - Weapon sounds (Blaster/, Darksaber/, Lightsaber/)
+- **UI/** - User interface assets
+
+### Weapon Item Structure Example
+
+Weapon items in `Common/Items/Weapons/` follow a consistent structure:
+
+```
+Blaster_DC15A/
+├── Blaster_DC15A_Model.blockymodel
+└── Blaster_DC15A_Texture.png
+```
+
+Each weapon directory contains its model and texture files together for easy organization.
+
+## Server Directory
+
+The `Server/` directory contains all server-side configurations, game logic, and content definitions.
+
+### Audio Configuration
+
+```
+Server/Audio/
+├── AmbienceFX/          # Ambient sound effect configurations
+├── ItemSounds/          # Item sound mappings
+└── SoundEvents/         # Sound event definitions
+    ├── Ambience/        # Ambient sound events
+    ├── BlockSounds/     # Block sound events
+    ├── Environments/    # Environmental sounds
+    ├── Music/           # Music event configurations
+    └── SFX/             # Sound effects by category
+```
+
+Sound events are defined in JSON files that reference audio files in the `Common/Sounds/` directory.
+
+**Example:** `Server/Audio/SoundEvents/SFX/Lightsabers/Blue/Local/OrbisGalactic_SFX_Lightsaber_Equip_Blue_Local.json`
+
+```json
+{
+  "Volume": 0,
+  "PreventSoundInterruption": false,
+  "AudioCategory": "AudioCat_Sword",
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Weapons/Lightsaber/Blue/Lightsaber_Ignite_Blue_Local.ogg"
+      ],
+      "Volume": 0,
+      "StartDelay": 0.15
+    }
+  ],
+  "Parent": "SFX_Attn_Moderate"
+}
+```
+
+### Item Definitions
+
+```
+Server/Item/
+├── Animations/          # Item animation configurations
+├── Block/               # Block-specific item configs
+├── Category/            # Item category definitions
+├── CustomConnectedBlockTemplates/  # Connected block templates
+├── Interactions/        # Item interaction behaviors
+├── Items/               # Main item definitions
+└── RootInteractions/    # Root-level interactions
+```
+
+Item definitions are JSON files in `Server/Item/Items/` organized by type:
+
+- **Benches/** - Crafting benches and workstations
+- **Cloth/** - Cloth and fabric items
+- **Clothing/** - Wearable clothing items
+- **Deco/** - Decorative blocks and items
+- **EggSpawner/** - NPC spawner eggs
+- **Ingredient/** - Crafting ingredients
+- **Orbis Galactic/** - Mod-specific items
+- **Ore/** - Ore blocks and resources
+- **Portal/** - Portal blocks
+- **Potion/** - Consumable potions
+
+<Info>
+Item JSON files define all properties including recipes, block behavior, sounds, and visual properties. See `Server/Item/Items/Benches/Bench_Laser_Weapon_Crafter.json` for a complete example.
+</Info>
+
+### World Generation
+
+```
+Server/HytaleGenerator/
+├── Assignments/         # Biome and structure assignments
+├── Biomes/              # Biome definitions
+└── WorldStructures/     # Structure generation configs
+```
+
+### Game Content
+
+```
+Server/
+├── BarterShops/         # Trading shop definitions
+├── Camera/              # Camera effects and shake configurations
+├── Drops/               # Loot table definitions
+├── Entity/              # Entity configurations
+│   ├── Effects/         # Entity effect definitions
+│   ├── ModelVFX/        # Model visual effects
+│   ├── MovementConfig/  # Movement behavior configs
+│   └── Trails/          # Entity trail effects
+├── Environments/        # Environment definitions
+│   └── Tatooine/        # Planet-specific configs
+├── Instances/           # Instance/dungeon definitions
+│   ├── Orbis_Galactic_Spaceship_Interior/
+│   └── Tatooine_Test/
+├── Languages/           # Localization files
+│   └── en-US/           # English translations
+├── Models/              # Model configurations
+│   ├── NPC/             # NPC model configs
+│   ├── Projectiles/     # Projectile models
+│   └── Vehicles/        # Vehicle model configs
+├── NPC/                 # NPC definitions
+│   ├── Attitude/        # NPC behavior attitudes
+│   ├── Groups/          # NPC group definitions
+│   └── Roles/           # NPC role configurations
+├── Particles/           # Particle system configs
+│   ├── Hyperwarp/       # Hyperwarp effects
+│   ├── Item/            # Item particles
+│   ├── Space/           # Space-themed particles
+│   ├── Spell/           # Spell effects
+│   └── Weather/         # Weather particles
+├── Prefabs/             # Prefabricated structures
+│   ├── Ilum/            # Ilum planet structures
+│   ├── Spaceship/       # Spaceship prefabs
+│   └── Tatooine/        # Tatooine structures
+├── ProjectileConfigs/   # Projectile behavior configs
+│   └── Weapons/         # Weapon projectile configs
+├── Projectiles/         # Projectile definitions
+│   └── Blaster/         # Blaster projectiles
+└── Weathers/            # Weather system configs
+    └── Planets/         # Planet-specific weather
+```
+
+## Configuration Files
+
+### manifest.json
+
+The root `manifest.json` defines core mod metadata:
+
+```json
+{
+  "Group": "TastySyntax",
+  "Name": "OrbisGalactic",
+  "Version": "1.4.0",
+  "Description": "A star wars mod for Hytale.",
+  "Authors": [...],
+  "Website": "https://github.com/Tasty-Syntax/Orbis-Galactic",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "LoadBefore": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": false,
+  "SubPlugins": []
+}
+```
+
+<Note>
+Update the version number in `manifest.json` when releasing new versions of the mod.
+</Note>
+
+## File Naming Conventions
+
+### Consistent Naming Patterns
+
+The mod follows these naming conventions:
+
+1. **Prefixes:** Most mod-specific items use `OrbisGalactic_` prefix
+2. **Categories:** Sound events use category prefixes (e.g., `SFX_`, `Ambience_`)
+3. **Variants:** Item variants use descriptive suffixes (e.g., `_Blue`, `_Red`, `_Local`)
+4. **Hierarchy:** Nested categories reflected in names (e.g., `OrbisGalactic_SFX_Lightsaber_Attack_Blue_Local`)
+
+### File Extensions
+
+- `.json` - Configuration and definition files
+- `.blockymodel` - Hytale 3D model files
+- `.bbmodel` - Blockbench source files
+- `.png` - Texture and icon images
+- `.ogg` - Audio files
+- `.blockyanim` - Block animation files
+
+## Directory Organization Best Practices
+
+<Info>
+When adding new content, always place files in the appropriate category directories to maintain organization and make assets easy to find.
+</Info>
+
+### Adding a New Weapon
+
+1. **Models & Textures:**
+   - Create directory: `Common/Items/Weapons/[WeaponName]/`
+   - Add model: `[WeaponName]_Model.blockymodel`
+   - Add texture: `[WeaponName]_Texture.png`
+   - Store source files in: `Common/Resources/WeaponModels/` and `Common/Resources/WeaponTextures/`
+
+2. **Sounds:**
+   - Add audio files: `Common/Sounds/Weapons/[WeaponType]/`
+   - Create sound events: `Server/Audio/SoundEvents/SFX/[WeaponType]/`
+
+3. **Configuration:**
+   - Define item: `Server/Item/Items/Orbis Galactic/[WeaponName].json`
+   - Add projectile config (if ranged): `Server/ProjectileConfigs/Weapons/`
+   - Define projectile: `Server/Projectiles/[WeaponType]/`
+
+4. **Localization:**
+   - Add translations: `Server/Languages/en-US/`
+
+### Adding a New Block
+
+1. **Model & Texture:**
+   - Model file: `Common/Resources/BlockModels/[BlockName].blockymodel`
+   - Texture file: `Common/Resources/BlockTextures/[BlockName].png`
+
+2. **Configuration:**
+   - Block definition: `Server/Item/Items/[Category]/[BlockName].json`
+   - Block sounds: `Server/Audio/SoundEvents/BlockSounds/`
+
+3. **Icons:**
+   - Generate icon: `Common/Icons/ItemsGenerated/[BlockName].png`
+
+### Adding Sound Effects
+
+1. **Audio File:**
+   - Place `.ogg` file in: `Common/Sounds/[Category]/[Subcategory]/`
+
+2. **Sound Event:**
+   - Create JSON: `Server/Audio/SoundEvents/[Category]/[SoundName].json`
+   - Reference the audio file path from Common/Sounds/
+
+3. **Link to Item/Block:**
+   - Reference sound event ID in item/block JSON configuration
+
+## Asset Pipeline
+
+### Model Workflow
+
+1. Create model in Blockbench
+2. Save source file: `Common/Resources/Blockbench Files/`
+3. Export as `.blockymodel`: `Common/Resources/[Type]Models/`
+4. Create texture: `Common/Resources/[Type]Textures/`
+5. Reference in item JSON configuration
+
+### Sound Workflow
+
+1. Create/edit audio file (use `scripts/normalize_audio.sh` for consistency)
+2. Convert to `.ogg` format
+3. Place in: `Common/Sounds/[Category]/`
+4. Create sound event JSON in: `Server/Audio/SoundEvents/`
+5. Reference sound event in item/block/entity configuration
+
+### Icon Generation
+
+- Auto-generated icons: `Common/Icons/ItemsGenerated/`
+- Model previews: `Common/Icons/ModelsGenerated/`
+- Custom category icons: `Common/Icons/[Category]/`
+
+<Note>
+Auto-generated icons are created from the item's model and texture. Custom icons should be placed in the appropriate category folder.
+</Note>

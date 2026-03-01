@@ -1,0 +1,267 @@
+---
+title: Environments
+description: Complete reference for Orbis Galactic world environments and configurations
+---
+
+Environments define the visual, atmospheric, and gameplay characteristics of different worlds in Orbis Galactic. Each environment includes weather systems, spawn settings, water tinting, and zone tags.
+
+## Overview
+
+Environment configurations are stored in `Server/Environments/` and define:
+- Weather forecast systems with weighted probabilities
+- Spawn density for entities and resources
+- Water tint colors
+- Zone tags for biome classification
+- Parent environment inheritance
+
+## Available Environments
+
+### Tatooine
+
+The desert world features dynamic weather with multiple variants.
+
+**File**: `Server/Environments/Tatooine/Env_Tatooine.json`
+
+<Expandable title="Base Configuration">
+
+```json
+{
+  "WaterTint": "#198dea",
+  "SpawnDensity": 0.3,
+  "Tags": {
+    "Zone2": []
+  },
+  "WeatherForecasts": {
+    "0": [
+      {
+        "WeatherId": "Tatooine_Weather_Blazing",
+        "Weight": 30
+      },
+      {
+        "WeatherId": "Tatooine_Weather_Sunny",
+        "Weight": 40
+      },
+      {
+        "WeatherId": "Tatooine_Weather_Storm",
+        "Weight": 8
+      }
+    ]
+  }
+}
+```
+
+</Expandable>
+
+**Properties:**
+- **SpawnDensity**: `0.3` - Lower spawn rate for desert environment
+- **WaterTint**: `#198dea` - Blue water tint
+- **Zone**: Zone2 classification
+- **Weather System**: Three weather types with weighted probability:
+  - Blazing (weight 30)
+  - Sunny (weight 40) 
+  - Storm (weight 8)
+
+#### Tatooine Variants
+
+<CardGroup cols={2}>
+  <Card title="Big Caves" icon="mountain">
+    `Env_Tatooine_BigCaves.json`
+    
+    Large underground cave systems
+  </Card>
+  
+  <Card title="Canyons" icon="hills-crack">
+    `Env_Tatooine_Canyons.json`
+    
+    Deep canyon formations
+  </Card>
+  
+  <Card title="Rocky" icon="mountain-sun">
+    `Env_Tatooine_Rocky.json`
+    
+    Rocky terrain variant
+  </Card>
+  
+  <Card title="Shores" icon="water">
+    `Env_Tatooine_Shores.json`
+    
+    Coastal areas
+  </Card>
+</CardGroup>
+
+### Ilum
+
+The frozen tundra world with constant icy weather conditions.
+
+**File**: `Server/Environments/Env_Orbis_Galactic_Ilum.json`
+
+<Expandable title="Configuration">
+
+```json
+{
+  "Parent": "Env_Zone3",
+  "SpawnDensity": 0.4,
+  "Tags": {
+    "Zone3": [
+      "Tundra"
+    ]
+  },
+  "WaterTint": "#c2d9ef",
+  "WeatherForecasts": {
+    "0": [
+      {
+        "WeatherId": "Ilum_Weather",
+        "Weight": 100
+      }
+    ]
+  }
+}
+```
+
+</Expandable>
+
+**Properties:**
+- **Parent**: Inherits from `Env_Zone3`
+- **SpawnDensity**: `0.4` - Moderate spawn rate
+- **WaterTint**: `#c2d9ef` - Light blue icy water
+- **Zone**: Zone3 with Tundra biome tag
+- **Weather System**: Single consistent weather (Ilum_Weather, weight 100)
+
+**Associated Prefabs:**
+- Ice spike formations (7 variations)
+- Kyber ore nodes (5 variations)
+
+### Spaceship
+
+The interior environment of the Orbis Galactic starship.
+
+**File**: `Server/Environments/Env_OrbisGalactic_Spaceship.json`
+
+<Expandable title="Configuration">
+
+```json
+{
+  "Parent": "Default",
+  "SpawnDensity": 0.4,
+  "WaterTint": "#000000",
+  "WeatherForecasts": {
+    "0": [
+      {
+        "WeatherId": "Spaceship_Weather",
+        "Weight": 100
+      }
+    ]
+  },
+  "Tags": {
+    "OrbisGalactic_Spaceship": []
+  }
+}
+```
+
+</Expandable>
+
+**Properties:**
+- **Parent**: Inherits from `Default`
+- **SpawnDensity**: `0.4`
+- **WaterTint**: `#000000` - Black (no water expected)
+- **Zone**: OrbisGalactic_Spaceship tag
+- **Weather System**: Controlled spaceship atmosphere (Spaceship_Weather)
+
+**Features:**
+- Command center with idle ambience
+- Imperial blast doors
+- Hyperwarp and landing effects
+
+## Weather Forecast System
+
+Weather forecasts use hourly (0-23) weighted probability systems:
+
+```json
+"WeatherForecasts": {
+  "0": [  // Hour 0 (midnight)
+    {
+      "WeatherId": "Weather_Type_1",
+      "Weight": 30
+    },
+    {
+      "WeatherId": "Weather_Type_2",
+      "Weight": 70
+    }
+  ],
+  "1": [...],  // Hour 1
+  // ... hours 2-23
+}
+```
+
+**How Weights Work:**
+- Higher weight = higher probability
+- Weights are relative (30 vs 70 = 30% vs 70% chance)
+- Each hour can have different weather probabilities
+- Sum of weights determines total probability pool
+
+## Configuration Properties
+
+### SpawnDensity
+
+Controls the density of entity and resource spawning:
+- `0.0` - No spawning
+- `0.3` - Low (desert environments)
+- `0.4` - Moderate (most environments)
+- `1.0` - Maximum density
+
+### WaterTint
+
+Hex color code for water appearance:
+- `#198dea` - Blue (Tatooine oases)
+- `#c2d9ef` - Icy blue (Ilum)
+- `#000000` - Black (no water expected)
+
+### Tags
+
+Environment classification system:
+- **Zone tags**: Zone2, Zone3, etc.
+- **Biome tags**: Tundra, Desert, etc.
+- **Special tags**: OrbisGalactic_Spaceship
+
+### Parent Inheritance
+
+Environments can inherit from parent configurations:
+- `Default` - Base environment
+- `Env_Zone3` - Zone 3 base settings
+
+Child environments override parent properties.
+
+## Related Files
+
+- **Sound Events**: `Server/Audio/SoundEvents/Environments/`
+- **Prefabs**: `Server/Prefabs/{Tatooine,Ilum,Spaceship}/`
+- **Common Sounds**: `Common/Sounds/Environments/`
+
+## Example: Custom Environment
+
+```json
+{
+  "Parent": "Default",
+  "SpawnDensity": 0.5,
+  "WaterTint": "#1a8f3c",
+  "Tags": {
+    "CustomZone": [
+      "Forest",
+      "Temperate"
+    ]
+  },
+  "WeatherForecasts": {
+    "0": [
+      {
+        "WeatherId": "Clear",
+        "Weight": 60
+      },
+      {
+        "WeatherId": "Rain",
+        "Weight": 40
+      }
+    ]
+    // Repeat for hours 1-23
+  }
+}
+```

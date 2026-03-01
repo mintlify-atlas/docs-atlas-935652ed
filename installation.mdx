@@ -1,0 +1,211 @@
+---
+title: Installation
+description: Step-by-step guide to installing Orbis Galactic for Hytale
+---
+
+# Installation
+
+Get Orbis Galactic up and running in your Hytale game with these installation steps.
+
+## Prerequisites
+
+Before installing Orbis Galactic, ensure you have:
+
+- Hytale installed and updated to the latest version
+- Basic understanding of how to install Hytale mods
+- Sufficient storage space (the mod includes extensive assets)
+
+<Note>
+  Orbis Galactic does not include a custom asset pack. The mod uses Hytale's standard asset loading system.
+</Note>
+
+## Installation steps
+
+<Steps>
+  <Step title="Download Orbis Galactic">
+    Download the latest version (1.4.0) of Orbis Galactic from the [official GitHub repository](https://github.com/Tasty-Syntax/Orbis-Galactic).
+    
+    You can download either:
+    - The latest release from the Releases page
+    - Clone the repository using Git: `git clone https://github.com/Tasty-Syntax/Orbis-Galactic.git`
+  </Step>
+
+  <Step title="Locate your Hytale mods folder">
+    Navigate to your Hytale installation directory and find the mods folder.
+    
+    Common locations:
+    - **Windows**: `%appdata%/Hytale/mods/`
+    - **macOS**: `~/Library/Application Support/Hytale/mods/`
+    - **Linux**: `~/.hytale/mods/`
+    
+    If the mods folder doesn't exist, create it manually.
+  </Step>
+
+  <Step title="Install the mod files">
+    Copy or move the Orbis Galactic mod folder into your Hytale mods directory.
+    
+    Your folder structure should look like:
+    ```
+    Hytale/
+    └── mods/
+        └── OrbisGalactic/
+            ├── manifest.json
+            ├── Common/
+            ├── Server/
+            └── scripts/
+    ```
+  </Step>
+
+  <Step title="Verify the installation">
+    Check that the `manifest.json` file is present in the mod folder. This file contains:
+    
+    ```json
+    {
+      "Group": "TastySyntax",
+      "Name": "OrbisGalactic",
+      "Version": "1.4.0",
+      "Description": "A star wars mod for Hytale."
+    }
+    ```
+  </Step>
+
+  <Step title="Launch Hytale">
+    Start Hytale. The mod will be automatically detected and loaded.
+    
+    You can verify the mod is active by:
+    - Checking the mods list in Hytale's menu
+    - Looking for Orbis Galactic items in your creative inventory
+    - Confirming the mod version matches 1.4.0
+  </Step>
+</Steps>
+
+## Mod configuration
+
+Orbis Galactic comes pre-configured and ready to use. The mod includes:
+
+- **No dependencies** - Orbis Galactic runs independently without requiring other mods
+- **No optional dependencies** - All features are included in the base installation
+- **Enabled by default** - The mod activates automatically once installed
+- **No sub-plugins** - The complete experience is provided in the main mod
+
+<Note>
+  The mod is designed to work as a standalone experience. Simply install and play!
+</Note>
+
+## Verifying installation
+
+Once installed, you should be able to access:
+
+### Creative inventory categories
+
+Orbis Galactic adds several custom item categories:
+
+- **Blocks** - Building blocks and ores
+- **Decoration** - Decorative items and prefabs
+- **Lightsabers** - All lightsaber variants and hilts
+- **Blasters** - Ranged weapons
+- **Armor** - Protective equipment
+- **Clothes** - Cosmetic outfits
+- **Miscellaneous** - Tools, currency, and other items
+
+### Test in creative mode
+
+To verify everything is working:
+
+1. Start a creative mode game
+2. Open your inventory
+3. Look for the Orbis Galactic categories
+4. Spawn a lightsaber (search for "Blue Lightsaber")
+5. Test the secondary ability (E key) to extend/retract the blade
+
+## Troubleshooting
+
+### Mod not appearing in game
+
+<Steps>
+  <Step title="Check file location">
+    Ensure the mod is in the correct mods folder and not nested in an extra folder
+  </Step>
+  
+  <Step title="Verify manifest.json">
+    Open `manifest.json` and confirm it's not corrupted. It should be valid JSON with the mod metadata
+  </Step>
+  
+  <Step title="Check Hytale version">
+    Ensure your Hytale version is compatible with the mod. Orbis Galactic 1.4.0 is designed for current Hytale versions
+  </Step>
+  
+  <Step title="Review logs">
+    Check Hytale's log files for any error messages related to Orbis Galactic loading
+  </Step>
+</Steps>
+
+### Items not working correctly
+
+<Warning>
+  Some items require specific conditions to function:
+  - Lightsabers need to be extended with the E key before use
+  - Ship Call Beacon requires 17x5x5 blocks of free space
+  - Kyber crystals can only be mined on the Ilum planet
+</Warning>
+
+### Performance issues
+
+If you experience lag or performance problems:
+
+- Reduce render distance when on detailed planets like Tatooine
+- Limit the number of active NPCs in trading areas
+- Close other resource-intensive applications
+- Check that your system meets Hytale's recommended specifications
+
+## Updating the mod
+
+To update Orbis Galactic to a newer version:
+
+<Steps>
+  <Step title="Backup your worlds">
+    Before updating, backup any worlds using Orbis Galactic content
+  </Step>
+  
+  <Step title="Remove old version">
+    Delete the existing OrbisGalactic folder from your mods directory
+  </Step>
+  
+  <Step title="Install new version">
+    Follow the standard installation steps with the new version
+  </Step>
+  
+  <Step title="Test compatibility">
+    Load your worlds and verify all Orbis Galactic content loads correctly
+  </Step>
+</Steps>
+
+<Note>
+  Always check the release notes for breaking changes or new requirements when updating
+</Note>
+
+## Uninstalling
+
+To remove Orbis Galactic:
+
+1. Close Hytale completely
+2. Navigate to your mods folder
+3. Delete the `OrbisGalactic` folder
+4. Restart Hytale
+
+<Warning>
+  Uninstalling the mod will remove all Orbis Galactic content from your worlds. Items, blocks, and NPCs from the mod will be deleted. Backup your worlds before uninstalling if you want to preserve them.
+</Warning>
+
+## Getting help
+
+If you encounter issues during installation:
+
+- Check the [GitHub repository](https://github.com/Tasty-Syntax/Orbis-Galactic) for known issues
+- Review the Issues section for similar problems and solutions
+- Create a new issue with detailed information about your problem
+- Include your Hytale version, operating system, and any error messages
+
+## Next steps
+
+Now that you have Orbis Galactic installed, check out the [Quick start guide](/quickstart) to begin your galactic adventure!

@@ -1,0 +1,237 @@
+---
+title: NPCs
+description: NPCs and droids in Orbis Galactic including R2-D2 variants, Jawas, and other Star Wars characters
+---
+
+Orbis Galactic populates the galaxy with iconic Star Wars NPCs and creatures.
+
+## Droids
+
+### R2-D2 units
+
+**R2-D2** (`OrbisGalactic_NPC_R2`)
+
+Loyal astromech droids that can follow and assist you.
+
+#### Characteristics
+
+- **Type:** Generic NPC
+- **Appearance model:** `OrbisGalactic_Model_R2_Blue`
+- **Max health:** 50 HP
+- **Invulnerable:** No
+- **Default state:** Idle
+- **Name translation:** `R2D2`
+
+#### Movement
+
+<Tabs>
+  <Tab title="Walk controller">
+    - **Max walk speed:** 15
+    - **Gravity:** 10
+    - **Max fall speed:** 8
+    - **Acceleration:** 10
+    - **Hover frequency:** 0.2
+    - **Max climb height:** 10
+  </Tab>
+  <Tab title="Behavior">
+    R2 units use sophisticated AI to follow players:
+    
+    - **Detection range:** 10 blocks
+    - **Follow distance:** 3 blocks (stops at this distance)
+    - **Teleport range:** Beyond 20 blocks
+    - **Strafe behavior:** Maintains 2-3 block spacing from other droids
+  </Tab>
+</Tabs>
+
+#### Interactions
+
+<Info>
+  You can interact with R2-D2 units. When you do, they drop their spawn egg and despawn, allowing you to pick them up and redeploy them elsewhere.
+</Info>
+
+**Drop on despawn:** R2D2 Droid Pod (`Egg_Spawner_R2`)
+
+#### Variants
+
+**R2-D2 (No Follower)** (`OrbisGalactic_NPC_R2_NoFollower`)
+
+A stationary variant that doesn't follow players.
+
+### Spawn eggs
+
+**R2D2 Droid Pod** (`Egg_Spawner_R2D2`)
+
+Deploy an R2-D2 unit by placing this item.
+
+## Tatooine inhabitants
+
+### Jawas
+
+**Jawa** (`Jawa`)
+
+Small scavengers native to Tatooine who trade in salvaged goods.
+
+#### Characteristics
+
+- **Type:** Variant of Kweebec Sapling template
+- **Appearance model:** `Jawa_Model`
+- **Max health:** 74 HP
+- **Attitude group:** Humanoid_Friendly
+- **Drop list:** `Drop_Jawa`
+- **Is memory:** Yes (remembered by the world)
+- **Name translation:** `server.npcRoles.Jawa.name`
+
+<Tip>
+  Jawas are interested in scrap metal. They may offer trades for salvaged materials!
+</Tip>
+
+#### Variants
+
+<CardGroup cols={2}>
+  <Card title="Jawa Trader" icon="shop">
+    **NPC ID:** `JawaTrader`
+    
+    Merchantile Jawas who operate trading posts and offer unique Star Wars items.
+  </Card>
+  <Card title="Jawa Sith" icon="skull">
+    **NPC ID:** `JawaSith`
+    
+    A rare hostile variant corrupted by dark side influence.
+  </Card>
+</CardGroup>
+
+### Other inhabitants
+
+**Spawn eggs available:**
+
+- **Tusken Raider** (`Egg_Spawner_TuskenRaider`) - Nomadic warriors of the desert
+- **Rodian** (`Egg_Spawner_Rodian`) - Green-skinned bounty hunters and traders
+- **Twilek** (`Egg_Spawner_Twilek`) - Graceful humanoids with head-tails
+- **Stormtrooper** (`Egg_Spawner_Stormtrooper`) - Imperial soldiers
+
+## NPC organization
+
+NPCs are organized using attitude groups and role systems:
+
+<Accordion title="Attitude groups">
+  **Humanoid_Friendly**
+  
+  Most non-hostile NPCs like Jawas belong to this group. They won't attack players on sight and can be interacted with for trading or quests.
+</Accordion>
+
+<Accordion title="Role templates">
+  NPCs use role templates to define their behavior:
+  
+  - **Generic:** Basic NPC with standard AI
+  - **Variant:** Modified version of an existing template (like Jawa from Kweebec Sapling)
+  
+  Templates define movement, combat, and interaction behaviors.
+</Accordion>
+
+<Accordion title="NPC states">
+  NPCs cycle through various states:
+  
+  - **Idle:** Default resting state
+  - **Follow:** Actively following a player
+  - **Combat:** Engaged in battle
+  - **Despawn:** Removing from world
+  
+  State transitions are controlled by sensors and instructions.
+</Accordion>
+
+## NPC AI system
+
+### Sensors
+
+NPCs use sensors to detect and respond to their environment:
+
+<Tabs>
+  <Tab title="Player sensor">
+    Detects nearby players within a specified range.
+    
+    **Example from R2-D2:**
+    ```json
+    "Sensor": {
+      "Type": "Player",
+      "Range": 10,
+      "LockOnTarget": true
+    }
+    ```
+  </Tab>
+  <Tab title="Mob sensor">
+    Detects other NPCs and creatures.
+    
+    Used by R2 units to maintain spacing from each other.
+  </Tab>
+  <Tab title="State sensor">
+    Monitors the NPC's current state (Idle, Despawn, etc.).
+  </Tab>
+  <Tab title="Target sensor">
+    Checks if the NPC has an active target to follow or attack.
+  </Tab>
+</Tabs>
+
+### Motion controllers
+
+NPCs use motion controllers to move through the world:
+
+**Seek behavior**
+- Approaches a target
+- Slows down at `SlowDownDistance`
+- Stops at `StopDistance`
+- Uses `RelativeSpeed` multiplier
+
+**Maintain distance behavior**
+- Keeps a specific distance from target
+- Strafes to avoid crowding
+- Used when multiple NPCs follow the same player
+
+**Teleport behavior**
+- Instantly moves to target when too far
+- Prevents NPCs from getting permanently lost
+- R2 units teleport when beyond 20 blocks
+
+## Interactions
+
+<CardGroup cols={2}>
+  <Card title="Follower NPCs" icon="user-group">
+    Some NPCs like R2-D2 can be set as followers:
+    
+    1. Interact with the NPC
+    2. They lock onto you as their target
+    3. They follow within specified range
+    4. Pick them up to move them elsewhere
+  </Card>
+  <Card title="Trader NPCs" icon="handshake">
+    NPCs like Jawa Traders offer unique items:
+    
+    - Scrap metal exchanges
+    - Rare Star Wars items
+    - Currency trades
+    - Special equipment
+  </Card>
+</CardGroup>
+
+## Drop lists
+
+When NPCs are defeated or despawned, they drop items from configured drop lists:
+
+- **Drop_Jawa:** Scrap metal and salvage items
+- **Egg spawners:** Most companion NPCs drop their spawn egg when picked up
+
+<Warning>
+  Some hostile NPC variants will attack on sight. Be prepared for combat when encountering Jawa Sith or hostile Tusken Raiders!
+</Warning>
+
+## Spawning NPCs
+
+You can spawn NPCs using spawn eggs:
+
+1. Obtain the spawn egg from crafting, trading, or picking up an existing NPC
+2. Right-click to place the NPC in the world
+3. The NPC will spawn in its default idle state
+4. Interact with it to set behaviors (follow, trade, etc.)
+
+<Info>
+  NPCs marked with `"IsMemory": true` are remembered by the world save system and will persist even when you're far away.
+</Info>

@@ -1,0 +1,207 @@
+---
+title: Worlds
+description: Custom worlds and environments in Orbis Galactic including Tatooine, Ilum, and Spaceship
+---
+
+Orbis Galactic introduces iconic Star Wars planets and environments to explore in Hytale.
+
+## Tatooine
+
+A harsh desert world with twin suns, home to Jawas, Tusken Raiders, and various settlements.
+
+### Environment variants
+
+Tatooine features multiple environment configurations:
+
+<Tabs>
+  <Tab title="Main">
+    **Environment ID:** `Env_Tatooine`
+    
+    **Zone:** Zone 2 (Desert)
+    
+    **Spawn density:** 0.3
+    
+    **Water tint:** `#198dea`
+    
+    ### Weather patterns
+    
+    - **Blazing weather:** 30% chance - Intense heat from the twin suns
+    - **Sunny weather:** 40% chance - Clear desert skies
+    - **Storm weather:** 8% chance - Desert sandstorms
+    
+    The weather system uses `Tatooine_Weather_Blazing`, `Tatooine_Weather_Sunny`, and `Tatooine_Weather_Storm` configurations.
+  </Tab>
+  <Tab title="Big Caves">
+    **Environment ID:** `Env_Tatooine_BigCaves`
+    
+    Expansive underground cave systems beneath the desert surface.
+  </Tab>
+  <Tab title="Canyons">
+    **Environment ID:** `Env_Tatooine_Canyons`
+    
+    Deep rocky canyons carved through the desert landscape.
+  </Tab>
+  <Tab title="Rocky">
+    **Environment ID:** `Env_Tatooine_Rocky`
+    
+    Rocky outcroppings and mountainous desert terrain.
+  </Tab>
+  <Tab title="Shores">
+    **Environment ID:** `Env_Tatooine_Shores`
+    
+    Rare water boundaries in the otherwise dry desert world.
+  </Tab>
+</Tabs>
+
+<Info>
+  Tatooine's weather forecasts are consistent throughout all 24 hours of the day cycle, ensuring you'll always experience authentic desert conditions.
+</Info>
+
+## Ilum
+
+A frozen world rich with kyber crystals, sacred to the Jedi Order.
+
+**Environment ID:** `Env_Orbis_Galactic_Ilum`
+
+**Parent environment:** `Env_Zone3` (Tundra)
+
+**Zone tag:** Zone3 - Tundra
+
+**Spawn density:** 0.4
+
+**Water tint:** `#c2d9ef` (icy blue)
+
+### Weather system
+
+Ilum maintains constant winter conditions:
+
+**Weather ID:** `Ilum_Weather`
+
+**Frequency:** 100% (all 24 hours)
+
+The perpetual Ilum weather creates an authentic frozen wasteland atmosphere perfect for kyber crystal mining.
+
+<Tip>
+  Ilum is the primary source of kyber crystals. Mine kyber ore from stone, basalt, slate, shale, and volcanic rock formations.
+</Tip>
+
+### Climate characteristics
+
+- Constant snow and ice
+- Harsh winds
+- Frozen caves perfect for crystal formation
+- Tundra-based terrain generation
+
+## Spaceship
+
+Your personal spacecraft serves as a mobile base and transportation between worlds.
+
+**Environment ID:** `Env_OrbisGalactic_Spaceship`
+
+**Parent environment:** `Default`
+
+**Spawn density:** 0.4
+
+**Water tint:** `#000000` (no water - space environment)
+
+### Weather system
+
+**Weather ID:** `Spaceship_Weather`
+
+**Frequency:** 100% constant
+
+The spaceship maintains its own controlled atmosphere separate from planetary weather systems.
+
+### Environment tags
+
+**Tag:** `OrbisGalactic_Spaceship`
+
+This tag identifies the spaceship environment for special mechanics and interactions.
+
+<CardGroup cols={2}>
+  <Card title="Summoning" icon="signal">
+    Use the Ship Call Beacon to summon your spaceship to any location with sufficient clearance (17x5x5 blocks).
+  </Card>
+  <Card title="Travel" icon="rocket">
+    Your spaceship enables travel between different planetary environments and serves as a secure base.
+  </Card>
+</CardGroup>
+
+### Sound atmosphere
+
+The spaceship features unique audio:
+
+- **Ambient background:** `AmbFX_Spaceship_Background.json`
+- **Entrance sound:** `OrbisGalactic_Spaceship_Enter`
+- **Command center idle:** `Spaceship_SFX_CommandCenter_Idle`
+- **Ambient effects:** `Spaceship_SFX_Ambience`
+
+## Environmental mechanics
+
+<Accordion title="Weather forecasts">
+  All environments use a 24-hour weather forecast system (0-23 hours). Each hour can have different weather patterns with weighted probabilities.
+  
+  **Example from Tatooine:**
+  ```json
+  "0": [
+    {
+      "WeatherId": "Tatooine_Weather_Blazing",
+      "Weight": 30
+    },
+    {
+      "WeatherId": "Tatooine_Weather_Sunny",
+      "Weight": 40
+    },
+    {
+      "WeatherId": "Tatooine_Weather_Storm",
+      "Weight": 8
+    }
+  ]
+  ```
+</Accordion>
+
+<Accordion title="Spawn density">
+  Each environment has a spawn density value (0.0 to 1.0) that controls how frequently creatures and NPCs appear:
+  
+  - **Tatooine:** 0.3 (sparse desert population)
+  - **Ilum:** 0.4 (moderate spawning)
+  - **Spaceship:** 0.4 (controlled environment)
+</Accordion>
+
+<Accordion title="Water tinting">
+  Environments apply color tints to water to match the world's atmosphere:
+  
+  - **Tatooine:** `#198dea` (bright desert oasis blue)
+  - **Ilum:** `#c2d9ef` (frozen ice blue)
+  - **Spaceship:** `#000000` (no water - space)
+</Accordion>
+
+## Zone classification
+
+<Tabs>
+  <Tab title="Zone 2 - Desert">
+    Tatooine belongs to Zone 2, characterized by:
+    - Hot, arid climates
+    - Desert terrain
+    - Sparse vegetation
+    - Sand-based weather effects
+  </Tab>
+  <Tab title="Zone 3 - Tundra">
+    Ilum belongs to Zone 3, characterized by:
+    - Frozen environments
+    - Snow and ice
+    - Crystal formations
+    - Harsh winter conditions
+  </Tab>
+  <Tab title="Custom - Space">
+    The Spaceship is a custom environment:
+    - Controlled atmosphere
+    - No natural weather
+    - Artificial lighting
+    - Mechanical ambience
+  </Tab>
+</Tabs>
+
+<Warning>
+  When traveling between environments, ensure you have appropriate gear and supplies for the climate you're entering.
+</Warning>

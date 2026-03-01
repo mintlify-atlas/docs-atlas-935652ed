@@ -1,0 +1,491 @@
+---
+title: Sound Events
+description: Complete audio reference for Orbis Galactic sound events and configurations
+---
+
+Sound events define all audio in Orbis Galactic, from weapon sounds to ambient atmosphere. They support layered audio, looping, distance attenuation, and ducking.
+
+## Overview
+
+Sound events are JSON configurations that specify:
+- Audio file paths and layers
+- Volume and attenuation
+- Looping and playback behavior
+- Audio categories and ducking
+- Spatial audio properties
+
+**Base Location**: `Server/Audio/SoundEvents/`
+
+## Sound Event Categories
+
+<CardGroup cols={3}>
+  <Card title="SFX" icon="waveform">
+    Sound effects for actions and interactions
+  </Card>
+  
+  <Card title="Ambience" icon="wind">
+    Background atmospheric sounds
+  </Card>
+  
+  <Card title="Music" icon="music">
+    Musical tracks and themes
+  </Card>
+  
+  <Card title="Block Sounds" icon="cube">
+    Interactive block audio
+  </Card>
+  
+  <Card title="Environments" icon="cloud-sun">
+    Weather and world sounds
+  </Card>
+  
+  <Card title="UI" icon="screen-users">
+    Interface sound feedback
+  </Card>
+</CardGroup>
+
+## SFX (Sound Effects)
+
+**Location**: `Server/Audio/SoundEvents/SFX/`
+
+### Lightsaber Sounds
+
+Lightsabers have color-specific sound variants plus default sounds.
+
+**Location**: `SFX/Lightsabers/{Color}/Local/`
+
+#### Blue Lightsaber
+
+<AccordionGroup>
+  <Accordion title="Hum (Idle)">
+    **File**: `OrbisGalactic_SFX_Lightsaber_Hum_Blue_Local.json`
+    
+    ```json
+    {
+      "Volume": 10,
+      "PreventSoundInterruption": false,
+      "AudioCategory": "AudioCat_Sword",
+      "Layers": [
+        {
+          "Volume": -15,
+          "Files": [
+            "Sounds/Weapons/Lightsaber/Blue/Lightsaber_Blue_Idle_Local.ogg"
+          ]
+        }
+      ]
+    }
+    ```
+    
+    - **Category**: Sword audio
+    - **Volume**: 10 base, -15 layer (net -5)
+    - **Looping**: Continuous hum while equipped
+  </Accordion>
+  
+  <Accordion title="Attack">
+    **File**: `OrbisGalactic_SFX_Lightsaber_Attack_Blue_Local.json`
+    
+    Swing attack sound with swoosh effect
+  </Accordion>
+  
+  <Accordion title="Charged Attack">
+    **File**: `OrbisGalactic_SFX_Lightsaber_Charged_Attack_Blue_Local.json`
+    
+    Powered-up attack with intensified sound
+  </Accordion>
+  
+  <Accordion title="Equip">
+    **File**: `OrbisGalactic_SFX_Lightsaber_Equip_Blue_Local.json`
+    
+    Iconic ignition sound
+  </Accordion>
+  
+  <Accordion title="Unequip">
+    **File**: `OrbisGalactic_SFX_Lightsaber_Unequip_Blue_Local.json`
+    
+    Deactivation sound
+  </Accordion>
+</AccordionGroup>
+
+#### Lightsaber Color Variants
+
+| Color | Directory Path |
+|-------|---------------|
+| Blue | `SFX/Lightsabers/Blue/Local/` |
+| Green | `SFX/Lightsabers/Green/Local/` |
+| Red | `SFX/Lightsabers/Red/Local/` |
+| Default | `SFX/Lightsabers/Default/` |
+
+**Default sounds** include a unique collision sound:
+- `OrbisGalactic_SFX_Lightsaber_Collision_Local.json`
+
+### Darksaber Sounds
+
+**Location**: `SFX/Darksaber/`
+
+The Darksaber has unique, distinct audio:
+
+- `OrbisGalactic_SFX_Darksaber_Hum.json` - Distinctive black blade hum
+- `OrbisGalactic_SFX_Darksaber_Attack.json` - Attack swing
+- `OrbisGalactic_SFX_Darksaber_Charged_Attack.json` - Charged attack
+- `OrbisGalactic_SFX_Darksaber_Equip.json` - Ignition
+- `OrbisGalactic_SFX_Darksaber_Unequip.json` - Deactivation
+
+### Weapon Sounds
+
+#### Blasters
+
+**Location**: `SFX/Weapons/Blaster/`
+
+<Expandable title="Red Blaster Shot">
+
+**File**: `SFX_Blaster_Shoot_Red.json`
+
+```json
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Weapons/Blaster/BlasterShot_Red.ogg"
+      ]
+    }
+  ],
+  "AudioCategory": "AudioCat_Weapons",
+  "PreventSoundInterruption": true,
+  "Parent": "SFX_Attn_Moderate"
+}
+```
+
+- **Category**: Weapons
+- **Attenuation**: Moderate distance (inherited)
+- **Interrupt Prevention**: Ensures shot sound plays completely
+
+</Expandable>
+
+**Available Blaster Sounds:**
+- `SFX_Blaster_Shoot_Red.json` - Red blaster shot
+- `SFX_Blaster_Shoot_Cycler_Rifle.json` - Cycler rifle shot
+
+### NPC Sounds
+
+**Location**: `SFX/NPC/`
+
+#### Intelligent NPCs
+
+##### Droid Sounds: Astromech
+
+**Location**: `SFX/NPC/Intelligent/Droids/`
+
+<Expandable title="Astromech Idle Sounds">
+
+**File**: `Astromech_Idle_Sounds.json`
+
+```json
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/NPC/Droid/Astromech/Idle_Beep_1.ogg",
+        "Sounds/NPC/Droid/Astromech/Idle_Beep_2.ogg",
+        "Sounds/NPC/Droid/Astromech/Idle_Beep_3.ogg",
+        "Sounds/NPC/Droid/Astromech/Idle_Beep_4.ogg"
+      ],
+      "RoundRobinHistorySize": 2,
+      "Looping": true,
+      "Volume": -5,
+      "Probability": 25
+    }
+  ],
+  "AudioCategory": "AudioCat_Footsteps"
+}
+```
+
+**Features:**
+- **4 beep variations** - Randomized for variety
+- **Round Robin**: Prevents repeating last 2 sounds
+- **Probability**: 25% chance to play
+- **Looping**: Continuous idle beeping
+
+</Expandable>
+
+**Astromech Sound Set:**
+- `Astromech_Idle_Sounds.json` - Idle beeps
+- `Astromech_Move_Sounds.json` - Movement sounds
+- `Astromech_Despawn_Sounds.json` - Deactivation
+
+##### Tatooine NPCs
+
+**Location**: `SFX/NPC/Intelligent/Tatooine/`
+
+NPC sounds for Tatooine inhabitants (Jawas, Tuskens, etc.)
+
+#### Livestock NPCs
+
+**Location**: `SFX/NPC/Livestock/`
+
+Animal and creature sounds.
+
+### UI Sounds
+
+**Location**: `SFX/UI/Inventory/`
+
+User interface feedback sounds for inventory management and interactions.
+
+### Block Sounds
+
+**Location**: `SFX/Blocks/Imperial/`
+
+Imperial technology sounds:
+- `OrbisGalactic_Block_Imperial_Lamp_SFX.json` - Imperial lamp activation
+- `OrbisGalactic_Spaceship_Enter.json` - Spaceship entry sound
+
+## Ambience
+
+Background atmospheric and environmental sounds.
+
+**Location**: `Server/Audio/SoundEvents/Ambience/`
+
+### Cantina Ambience
+
+**File**: `Cantina_SFX_Ambience.json`
+
+```json
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Ambience/Cantina Ambience.ogg"
+      ],
+      "Volume": -8,
+      "Looping": true
+    }
+  ],
+  "MaxDistance": 18,
+  "StartAttenuationDistance": 10
+}
+```
+
+**Properties:**
+- **Looping**: Continuous background atmosphere
+- **Distance**: Audible up to 18 units
+- **Attenuation**: Starts fading at 10 units
+- **Volume**: -8 dB (subtle background)
+
+### Spaceship Ambience
+
+**Files:**
+- `Spaceship_SFX_Ambience.json` - General ship atmosphere
+- `Spaceship_SFX_CommandCenter_Idle.json` - Command center specific ambience
+
+## Music
+
+**Location**: `Server/Audio/SoundEvents/Music/`
+
+### Cantina Band
+
+**File**: `Cantina_Band.json`
+
+<Expandable title="Configuration">
+
+```json
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Music/Star Wars Cantina Band 1.ogg",
+        "Sounds/Music/Star Wars Cantina Band 2.ogg"
+      ],
+      "Looping": true,
+      "RoundRobinHistorySize": 1,
+      "Volume": 4.28
+    }
+  ],
+  "MaxDistance": 46,
+  "MaxInstance": 1,
+  "StartAttenuationDistance": 15,
+  "AmbientDuckingVolume": -5,
+  "MusicDuckingVolume": -30,
+  "AudioCategory": "AudioCat_Music"
+}
+```
+
+</Expandable>
+
+**Features:**
+- **2 track variations** - Alternates between versions
+- **Round Robin**: Prevents immediate repeat
+- **Distance**: Audible up to 46 units (large area)
+- **Max Instances**: Only 1 playing at a time
+- **Ducking**: Reduces other audio when playing
+  - Ambient: -5 dB
+  - Other music: -30 dB
+
+## Block Sounds
+
+Interactive block audio triggered by player actions.
+
+**Location**: `Server/Audio/SoundEvents/BlockSounds/`
+
+### Imperial Blast Doors
+
+- `OrbisGalactic_SFX_Imperial_Blast_Door_Open.json`
+- `OrbisGalactic_SFX_Imperial_Blast_Door_Close.json`
+
+### Torch Sounds
+
+**Location**: `BlockSounds/Torch/`
+
+- `SFX_Lamp_On.json` - Torch ignition
+- `SFX_Lamp_Off.json` - Torch extinguish
+
+## Environment Sounds
+
+**Location**: `Server/Audio/SoundEvents/Environments/Weather/`
+
+Weather and environmental effects:
+
+- `SFX_OrbisGalactic_Hyperwarp.json` - Hyperdrive jump effect
+- `SFX_OrbisGalactic_Spaceship_Land.json` - Ship landing sound
+
+## Configuration Properties
+
+### Core Properties
+
+<ResponseField name="Layers" type="array" required>
+  Audio layers that can play simultaneously
+  
+  Each layer contains:
+  - `Files` - Array of audio file paths
+  - `Volume` - Layer volume adjustment in dB
+  - `Looping` - Boolean for continuous playback
+  - `Probability` - Chance (0-100) to play
+  - `RoundRobinHistorySize` - Prevent recent repeats
+</ResponseField>
+
+<ResponseField name="Volume" type="number" default="0">
+  Master volume adjustment in decibels (dB)
+  
+  - `0` - Default volume
+  - Positive values increase volume
+  - Negative values decrease volume
+</ResponseField>
+
+<ResponseField name="AudioCategory" type="string">
+  Audio mixing category:
+  - `AudioCat_Music` - Music tracks
+  - `AudioCat_Sword` - Melee weapons
+  - `AudioCat_Weapons` - Ranged weapons
+  - `AudioCat_Footsteps` - Movement sounds
+</ResponseField>
+
+<ResponseField name="PreventSoundInterruption" type="boolean" default="false">
+  If true, prevents stopping sound before it finishes playing
+</ResponseField>
+
+<ResponseField name="Parent" type="string">
+  Inherit properties from parent sound event
+  
+  Common parents:
+  - `SFX_Attn_Moderate` - Moderate distance attenuation
+</ResponseField>
+
+### Spatial Audio
+
+<ResponseField name="MaxDistance" type="number">
+  Maximum distance in units where sound is audible
+</ResponseField>
+
+<ResponseField name="StartAttenuationDistance" type="number">
+  Distance where volume starts fading (0 to MaxDistance)
+</ResponseField>
+
+<ResponseField name="MaxInstance" type="number">
+  Maximum simultaneous instances of this sound (prevents spam)
+</ResponseField>
+
+### Ducking
+
+Ducking reduces volume of other audio categories when this sound plays.
+
+<ResponseField name="AmbientDuckingVolume" type="number">
+  Volume reduction (dB) applied to ambient sounds
+</ResponseField>
+
+<ResponseField name="MusicDuckingVolume" type="number">
+  Volume reduction (dB) applied to music
+</ResponseField>
+
+### Playback Behavior
+
+<ResponseField name="RoundRobinHistorySize" type="number">
+  Number of recent files to avoid repeating
+  
+  - `1` - Don't repeat last file
+  - `2` - Don't repeat last 2 files
+</ResponseField>
+
+<ResponseField name="Probability" type="number">
+  Percentage chance (0-100) this sound plays when triggered
+</ResponseField>
+
+<ResponseField name="Looping" type="boolean" default="false">
+  If true, sound loops continuously until stopped
+</ResponseField>
+
+## Audio File Paths
+
+Audio files are referenced relative to the sounds directory:
+
+```
+Sounds/
+├── Ambience/
+│   └── Cantina Ambience.ogg
+├── Music/
+│   └── Star Wars Cantina Band 1.ogg
+├── Weapons/
+│   ├── Lightsaber/
+│   │   └── Blue/
+│   │       └── Lightsaber_Blue_Idle_Local.ogg
+│   └── Blaster/
+│       └── BlasterShot_Red.ogg
+└── NPC/
+    └── Droid/
+        └── Astromech/
+            └── Idle_Beep_1.ogg
+```
+
+## Example: Custom Sound Event
+
+```json
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Custom/MySound_1.ogg",
+        "Sounds/Custom/MySound_2.ogg"
+      ],
+      "Volume": -3,
+      "Looping": false,
+      "RoundRobinHistorySize": 1,
+      "Probability": 80
+    }
+  ],
+  "Volume": 5,
+  "AudioCategory": "AudioCat_Weapons",
+  "PreventSoundInterruption": true,
+  "MaxDistance": 30,
+  "StartAttenuationDistance": 15,
+  "MaxInstance": 3
+}
+```
+
+This creates a weapon sound that:
+- Alternates between 2 variations
+- Has 80% chance to play
+- Prevents interruption
+- Audible up to 30 units
+- Maximum 3 simultaneous instances
+
+## Related Systems
+
+- [Entities & Effects](/reference/entities) - Entity sound triggers
+- [Environments](/reference/environments) - Environmental audio zones

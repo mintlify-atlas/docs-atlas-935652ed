@@ -1,0 +1,209 @@
+---
+title: Items
+description: Overview of items in Orbis Galactic including kyber crystals, ship beacons, and crafting benches
+---
+
+Orbis Galactic adds various items to enhance your Star Wars experience in Hytale.
+
+## Kyber crystals
+
+Kyber crystals are Force-attuned crystals essential for crafting lightsabers.
+
+### Clear Kyber Crystal
+
+**Clear Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Clear`)
+
+A transparent shimmering crystal. You can hear a faint humming resonating outwards from its center. It seems to be lacking force.
+
+<Info>
+  Clear kyber crystals serve as the base material. You can infuse them with color at an Arcane Bench.
+</Info>
+
+### Colored crystals
+
+You can transform clear kyber crystals into colored variants:
+
+<Accordion title="Blue Kyber Crystal recipe">
+  **Item ID:** `OrbisGalactic_Kyber_Crystal_Blue`
+  
+  **Recipe:**
+  - 1x Clear Kyber Crystal (`OrbisGalactic_Kyber_Crystal_Clear`)
+  - 30x Blue Crystal (`Ingredient_Crystal_Blue`)
+  
+  **Bench required:** Arcanebench (Arcane_Misc category)
+  
+  **Quality:** Epic
+  
+  **Light color:** `#065`
+  
+  **Particle effect:** Blue gem sparks (`#85ecff`)
+</Accordion>
+
+### Mining kyber ore
+
+Kyber crystals are found in ore form across various stone types:
+
+- **Kyber Crystal Ore - Stone** (`Ore_Kyber_Stone`)
+- **Kyber Crystal Ore - Basalt** (`Ore_Kyber_Basalt`)
+- **Kyber Crystal Ore - Slate** (`Ore_Kyber_Slate`)
+- **Kyber Crystal Ore - Shale** (`Ore_Kyber_Shale`)
+- **Kyber Crystal Ore - Volcanic** (`Ore_Kyber_Volcanic`)
+
+<Tip>
+  Search for kyber ore in caves and underground areas on Ilum for the best yields.
+</Tip>
+
+## Lightsaber components
+
+### Lightsaber hilts
+
+<CardGroup cols={3}>
+  <Card title="Anakin Hilt" icon="grip-lines">
+    **ID:** `OrbisGalactic_Lightsaber_Hilt_Anakin`
+    
+    A finely crafted lightsaber hilt of elegant, functional design. The hilt feels heavy with history, its balance reflecting both brilliance and hubris.
+  </Card>
+  <Card title="Luke Hilt" icon="grip-lines">
+    **ID:** `OrbisGalactic_Lightsaber_Hilt_Luke`
+    
+    A refined lightsaber hilt built with careful intention and quiet resolve. The hilt feels purposeful and calm, shaped by perseverance rather than inheritance.
+  </Card>
+  <Card title="Maul Hilt" icon="grip-lines">
+    **ID:** `OrbisGalactic_Lightsaber_Hilt_Maul`
+    
+    A brutal, double-coupled lightsaber hilt forged for relentless aggression. It hums with barely restrained hatred, designed to overwhelm opponents.
+  </Card>
+</CardGroup>
+
+## Crafting stations
+
+### Laser Weapon Bench
+
+**Laser Weapon Bench** (`Bench_Laser_Weapon_Crafter`)
+
+A workstation to manufacture laser-based weaponry.
+
+#### Recipe
+
+- 1x Clear Kyber Crystal (`OrbisGalactic_Kyber_Crystal_Clear`)
+- 10x Fire Essence (`Ingredient_Fire_Essence`)
+- 10x Rock (any rock type)
+
+**Crafting time:** 4 seconds
+
+**Bench required:** Workbench (Tier 2, Workbench_Crafting category)
+
+#### Crafting categories
+
+The Laser Weapon Bench supports three crafting categories:
+
+<Tabs>
+  <Tab title="Weapon Parts">
+    Craft lightsaber hilts and other weapon components.
+    
+    **Category ID:** `Weapon_Parts`
+  </Tab>
+  <Tab title="Lightsabers (Single)">
+    Craft single-bladed lightsabers including Anakin and Luke styles.
+    
+    **Category ID:** `Lightsabers_Single`
+  </Tab>
+  <Tab title="Lightsabers (Double)">
+    Craft double-bladed lightsabers in the Maul style.
+    
+    **Category ID:** `Lightsabers_Double`
+  </Tab>
+</Tabs>
+
+#### Upgrades
+
+You can upgrade your Laser Weapon Bench to Tier 2:
+
+**Upgrade requirements:**
+- 25x Thorium Bar (`Ingredient_Bar_Thorium`)
+- 25x Cobalt Bar (`Ingredient_Bar_Cobalt`)
+- 20x Fire Essence (`Ingredient_Fire_Essence`)
+- 5x Clear Kyber Crystal (`OrbisGalactic_Kyber_Crystal_Clear`)
+
+**Upgrade time:** 3 seconds
+
+**Benefit:** 15% crafting time reduction
+
+<Info>
+  The Laser Weapon Bench emits a blue light (`#134`) and plays unique sound effects when opening, closing, and completing crafts.
+</Info>
+
+## Ship Call Beacon
+
+**Ship Call Beacon** (`Ship_Call_Beacon`)
+
+Place this to call your personal spaceship. 
+
+<Warning>
+  IMPORTANT: A free space of 17x5x5 blocks in front of the beacon is required!
+</Warning>
+
+### Recipe
+
+- 8x Iron Bar (`Ingredient_Bar_Iron`)
+- 5x Void Essence (`Ingredient_Void_Essence`)
+- 3x Thorium Bar (`Ingredient_Bar_Thorium`)
+
+**Crafting time:** 5 seconds
+
+**Bench required:** Workbench (Workbench_Crafting category)
+
+**Max stack:** 1
+
+### Usage
+
+Place the beacon and interact with it to summon your spaceship. There's a 10-second cooldown between uses.
+
+**Model:** `Resources/BlockModels/Ship_Call_Beacon.blockymodel`
+
+**Texture:** `Resources/BlockTextures/Ship_Call_Beacon_Texture.png`
+
+## Currency
+
+<CardGroup cols={2}>
+  <Card title="Silver Credit" icon="coins">
+    **ID:** `OrbisGalactic_Galactic_Credit_Silver`
+    
+    The galactic standard currency.
+  </Card>
+  <Card title="Gold Credit" icon="coins">
+    **ID:** `OrbisGalactic_Galactic_Credit_Gold`
+    
+    The galactic standard currency. Worth a whole 10 silver credits!
+  </Card>
+</CardGroup>
+
+## Miscellaneous items
+
+### Scrap Metal
+
+**Scrap Metal** (`OrbisGalactic_Scrap_Metal`)
+
+Some scrap metal. A Jawa might see value in this.
+
+### Speeder Bike
+
+**Speeder Bike** (`OrbisGalactic_Speeder_Bike`)
+
+A speeder bike, perfect to optimize planetary travel time.
+
+<Tip>
+  Right-click to deploy your speeder bike!
+</Tip>
+
+## Item categories
+
+Items are organized into the following categories:
+
+- **Blocks** (`orbisgalactic.blocks`)
+- **Decoration** (`orbisgalactic.deco`)
+- **Lightsabers** (`orbisgalactic.sabers`)
+- **Blasters** (`orbisgalactic.blasters`)
+- **Armor** (`orbisgalactic.armor`)
+- **Clothes** (`orbisgalactic.clothes`)
+- **Miscellaneous** (`orbisgalactic.misc`)

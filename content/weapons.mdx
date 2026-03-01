@@ -1,0 +1,140 @@
+---
+title: Weapons
+description: Overview of all weapons in Orbis Galactic including lightsabers and blasters
+---
+
+Orbis Galactic adds an extensive arsenal of Star Wars weapons to Hytale, from elegant lightsabers to powerful blasters.
+
+## Lightsabers
+
+Lightsabers are the signature weapons of the Jedi and Sith. You can craft them using kyber crystals and lightsaber hilts at the Laser Weapon Bench.
+
+### Lightsaber styles
+
+The mod features three distinct lightsaber hilt styles:
+
+<CardGroup cols={3}>
+  <Card title="Anakin" icon="sword">
+    A finely crafted lightsaber hilt of elegant, functional design. Once wielded by a legendary Jedi Knight, it carries a powerful presence shaped by great promise and tragic destiny.
+  </Card>
+  <Card title="Luke" icon="sword">
+    A refined lightsaber hilt built with careful intention and quiet resolve. Forged by a Jedi who sought to restore hope to a broken legacy.
+  </Card>
+  <Card title="Maul" icon="swords">
+    A brutal, double-coupled lightsaber hilt forged for relentless aggression. Available in single-blade and double-blade configurations.
+  </Card>
+</CardGroup>
+
+### Kyber crystal colors
+
+<Tabs>
+  <Tab title="Light side">
+    **Blue Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Blue`)
+    
+    A luminous blue crystal, steady and resolute. Its hum is calm yet unwavering, resonating with discipline and resolve. The Force within feels focused, driven by clarity and protection.
+
+    **Green Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Green`)
+    
+    A vibrant green crystal, alive with a flowing resonance. Its hum feels organic and deep, echoing patience, wisdom, and harmony with the Force.
+
+    **Golden Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Gold`)
+    
+    A radiant golden crystal emitting a pure, resonant harmony. Its hum feels ancient and unwavering, suffused with clarity, purpose, and an almost mythic presence.
+  </Tab>
+  <Tab title="Dark side">
+    **Red Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Red`)
+    
+    A jagged crimson crystal radiating an unstable pulse. Its hum is harsh and discordant, as if the crystal itself is in pain. The Force within feels twisted and forcibly bound.
+  </Tab>
+  <Tab title="Neutral">
+    **Purple Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Purple`)
+    
+    A deep violet crystal shimmering with conflicting energies. Its hum carries both serenity and intensity, balanced on a razor's edge between control and aggression.
+
+    **Orange Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Orange`)
+    
+    A warm orange crystal glowing with restrained intensity. Its hum feels deliberate and measured, resonating with adaptability, ambition, and pragmatic balance.
+
+    **White Kyber Crystal** (`OrbisGalactic_Kyber_Crystal_Multicolor`)
+    
+    A rare prismatic crystal refracting shifting hues within its core. Its hum is calm and perfectly unified. The Force within feels balanced and self-determined, free from corruption and rigid doctrine alike.
+  </Tab>
+</Tabs>
+
+<Info>
+  Use the Secondary Ability (E key) to extend or retract your lightsaber blade.
+</Info>
+
+### Darksaber
+
+**Darksaber** (`OrbisGalactic_Weapon_Lightsaber_Darksaber`)
+
+An ancient black-bladed lightsaber with a white-edged core, emitting a low, unstable hum. Heavy and resistant to the untrained hand, it is a powerful symbol of authority and legacy among the Mandalorians.
+
+### Crafting lightsabers
+
+To craft a lightsaber, you need:
+
+1. A lightsaber hilt (Anakin, Luke, or Maul)
+2. A kyber crystal in your desired color
+3. 5 Fire Essence
+4. Access to a Laser Weapon Bench (Tier 1 or higher)
+
+<Accordion title="Example: Blue Lightsaber (Anakin)">
+  **Item ID:** `OrbisGalactic_Weapon_Lightsaber_Anakin_Blue`
+  
+  **Quality:** Epic
+  
+  **Recipe:**
+  - 1x Lightsaber Hilt (Anakin) (`OrbisGalactic_Lightsaber_Hilt_Anakin`)
+  - 1x Blue Kyber Crystal (`OrbisGalactic_Kyber_Crystal_Blue`)
+  - 5x Fire Essence (`Ingredient_Fire_Essence`)
+  
+  **Crafting time:** 4.5 seconds
+  
+  **Bench required:** Laser Weapon Bench (Lightsabers - Single category)
+</Accordion>
+
+## Blasters
+
+Blasters are ranged energy weapons commonly used throughout the galaxy.
+
+### DC-15A
+
+**DC-15A** (`OrbisGalactic_Weapon_DC15A`)
+
+The standard issue blaster rifle for clone troopers.
+
+- **Quality:** Rare
+- **Impact damage:** 15
+- **Bullet spread:** 0.02
+- **Parent template:** `OrbisGalactic_Blaster_Template`
+- **Model:** `Items/Weapons/Blaster_DC15A/Blaster_DC15A_Model.blockymodel`
+
+### Cycler Rifle
+
+**Cycler Rifle** (`OrbisGalactic_Weapon_Cycler_Rifle`)
+
+A long range high velocity blaster rifle often used by Tusken Raiders.
+
+<Tip>
+  Blasters use projectile-based combat. Aim carefully to hit distant targets!
+</Tip>
+
+## Combat mechanics
+
+<Tabs>
+  <Tab title="Lightsabers">
+    - **Primary attack:** Swing the lightsaber with varying attack animations
+    - **Secondary ability:** Block incoming damage while holding
+    - **Special ability (E):** Extend/retract the blade
+    - **Charged attacks:** Hold primary attack for more powerful strikes
+    - **Trail effects:** Each color has unique blade trail effects
+  </Tab>
+  <Tab title="Blasters">
+    - **Primary attack:** Shoot blaster bolts
+    - **Projectile config:** Each blaster uses specific projectile configurations
+    - **Impact damage:** Varies by weapon type
+    - **Spread:** Affects accuracy at range
+  </Tab>
+</Tabs>

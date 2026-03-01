@@ -1,0 +1,374 @@
+---
+title: Animation Configuration
+description: Configuring item animations for weapons and tools in Orbis Galactic
+---
+
+Animation configuration files define how items behave visually in first-person and third-person perspectives. These JSON files control character animations, camera movements, and item wiggle physics.
+
+## File Location
+
+Animation configs are stored in:
+
+```
+Server/Item/Animations/
+├── Blaster.json
+├── Lightsaber.json
+├── OrbisGalactic_Lightsaber_Animations.json
+├── OrbisGalactic_Darksaber_Animations.json
+└── ...
+```
+
+## Core Structure
+
+Animation configuration files contain three main sections:
+
+1. **Animations** - Animation definitions for various states
+2. **WiggleWeights** - Physics-based item movement
+3. **Camera** - Camera rotation constraints
+4. **PullbackConfig** - (Optional) Item positioning overrides
+
+## Animations Section
+
+The `Animations` object maps animation names to their configuration.
+
+### Movement Animations
+
+```json
+{
+  "Animations": {
+    "Idle": {
+      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Idle_FPS.blockyanim",
+      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Idle.blockyanim",
+      "Speed": 0.5,
+      "Looping": true
+    },
+    "Walk": {
+      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Walk_FPS.blockyanim",
+      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Walk.blockyanim",
+      "Speed": 1.0,
+      "Looping": true
+    },
+    "Run": {
+      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Run_FPS.blockyanim",
+      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Run.blockyanim",
+      "Speed": 0.9,
+      "Looping": true
+    }
+  }
+}
+```
+
+### Custom Action Animations
+
+```json
+{
+  "Animations": {
+    "OrbisGalactic_Lightsaber_Ignite": {
+      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Longsword/Lightsaber_Ignite.blockyanim",
+      "ThirdPersonMoving": "Characters/Animations/Items/Dual_Handed/Longsword/Lightsaber_Ignite.blockyanim",
+      "ThirdPersonFace": "Characters/Animations/Expressions/Rage.blockyanim",
+      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Longsword/Lightsaber_Ignite.blockyanim",
+      "Speed": 0.25,
+      "KeepPreviousFirstPersonAnimation": false,
+      "ClipsGeometry": false,
+      "BlendingDuration": 0
+    },
+    "Shoot": {
+      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Attacks/Shoot/Shoot.blockyanim",
+      "ThirdPersonMoving": "Characters/Animations/Items/Dual_Handed/Rifle/Attacks/Shoot/Shoot_Moving.blockyanim",
+      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Rifle/Attacks/Shoot/Shoot_FPS.blockyanim",
+      "ThirdPersonFace": "Characters/Animations/Expressions/Frown.blockyanim",
+      "Speed": 1,
+      "BlendingDuration": 0
+    }
+  }
+}
+```
+
+## Animation Properties
+
+<ParamField path="FirstPerson" type="string">
+  Path to the .blockyanim file for first-person view.
+  
+  Example: `"Characters/Animations/Items/Dual_Handed/Rifle/Idle_FPS.blockyanim"`
+</ParamField>
+
+<ParamField path="ThirdPerson" type="string">
+  Path to the .blockyanim file for third-person view when stationary.
+  
+  Example: `"Characters/Animations/Items/Dual_Handed/Rifle/Idle.blockyanim"`
+</ParamField>
+
+<ParamField path="ThirdPersonMoving" type="string">
+  Path to the .blockyanim file for third-person view when moving.
+  
+  Used for action animations like shooting or special abilities.
+</ParamField>
+
+<ParamField path="ThirdPersonFace" type="string">
+  Path to facial expression animation that plays during this action.
+  
+  Common expressions:
+  - `"Characters/Animations/Expressions/Rage.blockyanim"`
+  - `"Characters/Animations/Expressions/Frown.blockyanim"`
+  - `"Characters/Animations/Expressions/Smile.blockyanim"`
+</ParamField>
+
+<ParamField path="Speed" type="number" default={1.0}>
+  Animation playback speed multiplier. Lower values slow the animation down.
+  
+  - `0.25` - Very slow (lightsaber ignition)
+  - `0.5` - Half speed (idle)
+  - `1.0` - Normal speed
+  - `2.0` - Double speed (sprint)
+</ParamField>
+
+<ParamField path="Looping" type="boolean" default={false}>
+  Whether the animation should loop continuously.
+  
+  Set to `true` for idle, walk, run animations.
+  Set to `false` for one-shot actions like attacks.
+</ParamField>
+
+<ParamField path="BlendingDuration" type="number" default={0}>
+  Time in seconds to blend from the previous animation to this one.
+  
+  - `0` - Instant transition (attacks)
+  - `0.1` - Quick blend (crouch)
+  - `0.4` - Smooth blend (falling)
+</ParamField>
+
+<ParamField path="KeepPreviousFirstPersonAnimation" type="boolean" default={false}>
+  If true, maintains the previous first-person animation while playing the third-person animation.
+  
+  Useful for jump/fall animations where first-person view shouldn't change.
+</ParamField>
+
+<ParamField path="ClipsGeometry" type="boolean" default={false}>
+  Whether the animation allows the item to clip through geometry.
+  
+  <Warning>
+    Set to `true` for retraction/sheathing animations to prevent visual glitches.
+  </Warning>
+</ParamField>
+
+## WiggleWeights
+
+Controls physics-based item movement in first-person view, adding realistic sway and bob.
+
+```json
+{
+  "WiggleWeights": {
+    "Pitch": 2.5,
+    "PitchDeceleration": 0.1,
+    "Roll": 0.1,
+    "RollDeceleration": 0.1,
+    "X": 2.5,
+    "XDeceleration": 0.1,
+    "Y": 0.1,
+    "YDeceleration": 0.1,
+    "Z": 0.1,
+    "ZDeceleration": 0.1
+  }
+}
+```
+
+<ParamField path="Pitch" type="number">
+  Rotation around the X-axis (up/down tilt). Higher values increase sway.
+</ParamField>
+
+<ParamField path="PitchDeceleration" type="number">
+  How quickly pitch movement dampens. Lower = slower return to neutral.
+</ParamField>
+
+<ParamField path="Roll" type="number">
+  Rotation around the Z-axis (side-to-side tilt).
+</ParamField>
+
+<ParamField path="RollDeceleration" type="number">
+  How quickly roll movement dampens.
+</ParamField>
+
+<ParamField path="X" type="number">
+  Linear movement along the X-axis (left/right).
+</ParamField>
+
+<ParamField path="XDeceleration" type="number">
+  How quickly X movement dampens.
+</ParamField>
+
+<ParamField path="Y" type="number">
+  Linear movement along the Y-axis (up/down).
+</ParamField>
+
+<ParamField path="YDeceleration" type="number">
+  How quickly Y movement dampens.
+</ParamField>
+
+<ParamField path="Z" type="number">
+  Linear movement along the Z-axis (forward/backward).
+</ParamField>
+
+<ParamField path="ZDeceleration" type="number">
+  How quickly Z movement dampens.
+</ParamField>
+
+<Tip>
+  For lightsabers, use higher `Pitch` and `X` values (2.5) to create dramatic swaying. For precise weapons like blasters, use lower values (1.0).
+</Tip>
+
+## Camera Configuration
+
+Defines camera rotation constraints and target skeleton nodes.
+
+```json
+{
+  "Camera": {
+    "Pitch": {
+      "AngleRange": {
+        "Max": 60,
+        "Min": -30
+      },
+      "TargetNodes": [
+        "Head",
+        "LShoulder",
+        "RShoulder"
+      ]
+    },
+    "Yaw": {
+      "AngleRange": {
+        "Max": 45,
+        "Min": -45
+      },
+      "TargetNodes": [
+        "Belly"
+      ]
+    }
+  }
+}
+```
+
+<ParamField path="Pitch.AngleRange" type="object">
+  Vertical camera rotation limits in degrees.
+  
+  - `Max`: Maximum upward angle (60 = look up significantly)
+  - `Min`: Maximum downward angle (-30 = look down moderately)
+</ParamField>
+
+<ParamField path="Pitch.TargetNodes" type="array">
+  Skeleton nodes that rotate with vertical camera movement.
+  
+  Common nodes: `"Head"`, `"LShoulder"`, `"RShoulder"`
+</ParamField>
+
+<ParamField path="Yaw.AngleRange" type="object">
+  Horizontal camera rotation limits in degrees.
+  
+  - `Max`: Maximum rightward angle
+  - `Min`: Maximum leftward angle
+</ParamField>
+
+<ParamField path="Yaw.TargetNodes" type="array">
+  Skeleton nodes that rotate with horizontal camera movement.
+  
+  Common nodes: `"Belly"`, `"Torso"`
+</ParamField>
+
+<Note>
+  Camera configuration is optional. Omitting the `AngleRange` object removes rotation limits.
+</Note>
+
+## PullbackConfig (Optional)
+
+Overrides item positioning and rotation offsets for left and right hands.
+
+```json
+{
+  "PullbackConfig": {
+    "LeftOffsetOverride": [0, 0, -1.6],
+    "LeftRotationOverride": [0, 0, 0],
+    "RightOffsetOverride": [0, 0, -1.6],
+    "RightRotationOverride": [0, 0, 0]
+  }
+}
+```
+
+<ParamField path="LeftOffsetOverride" type="array">
+  [X, Y, Z] position offset for the left hand in Hytale units.
+</ParamField>
+
+<ParamField path="LeftRotationOverride" type="array">
+  [X, Y, Z] rotation in degrees for the left hand.
+</ParamField>
+
+<ParamField path="RightOffsetOverride" type="array">
+  [X, Y, Z] position offset for the right hand in Hytale units.
+</ParamField>
+
+<ParamField path="RightRotationOverride" type="array">
+  [X, Y, Z] rotation in degrees for the right hand.
+</ParamField>
+
+## Common Animation States
+
+Here's a reference of standard animation states you may want to implement:
+
+### Movement States
+- `Idle` - Standing still
+- `Walk` / `WalkBackward` - Walking
+- `Run` / `RunBackward` - Running
+- `Sprint` - Sprinting
+- `Crouch` / `CrouchWalk` - Crouching
+- `Jump` / `JumpWalk` / `JumpRun` - Jumping variations
+- `Fall` / `FallFar` - Falling
+
+### Swimming States
+- `SwimIdle` - Floating on surface
+- `Swim` / `SwimBackward` / `SwimFast` - Surface swimming
+- `SwimDive` / `SwimDiveBackward` / `SwimDiveFast` - Underwater swimming
+- `SwimFloat` / `SwimSink` - Vertical movement in water
+- `SwimJump` - Jumping out of water
+
+### Flight States
+- `FlyIdle` - Hovering
+- `Fly` / `FlyBackward` / `FlyFast` - Flying movement
+
+### Climbing States
+- `ClimbIdle` - Hanging on wall
+- `ClimbUp` / `ClimbDown` - Vertical climbing
+- `ClimbLeft` / `ClimbRight` - Horizontal climbing
+
+### Action States
+- `Interact` - Using/interacting with objects
+- `Shoot` - Ranged attack
+- `GuardBash` - Melee attack
+- Custom actions (e.g., `OrbisGalactic_Lightsaber_Ignite`)
+
+<Warning>
+  Not all states need to be defined. Hytale will use default animations for undefined states.
+</Warning>
+
+## Best Practices
+
+### Animation Speed
+
+- Use slower speeds (0.2-0.3) for dramatic actions like lightsaber ignition
+- Use normal speed (1.0) for most combat actions
+- Use faster speeds (1.5-2.0) only for sprint animations
+
+### Blending
+
+- Use `BlendingDuration: 0` for instant actions (attacks, shooting)
+- Use `BlendingDuration: 0.1` for quick transitions (crouch, interact)
+- Use `BlendingDuration: 0.4` for smooth transitions (falling)
+
+### Facial Expressions
+
+Add personality to actions with `ThirdPersonFace`:
+- **Rage** - Intense actions (charged attacks, force powers)
+- **Frown** - Concentrated actions (shooting, precise movements)
+- **Smile** - Satisfying actions (retract lightsaber, successful hit)
+
+<Tip>
+  Test animations in all movement states (standing, walking, running) to ensure smooth transitions.
+</Tip>

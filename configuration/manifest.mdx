@@ -1,0 +1,173 @@
+---
+title: Manifest Configuration
+description: Understanding the manifest.json structure for Orbis Galactic mod
+---
+
+The `manifest.json` file is the core configuration file for the Orbis Galactic mod. It defines essential metadata about the mod including version information, authors, dependencies, and load order.
+
+## File Location
+
+The manifest file is located at the root of the mod directory:
+
+```
+OrbisGalactic/
+├── manifest.json
+├── Server/
+├── Common/
+└── scripts/
+```
+
+## Structure
+
+### Complete Example
+
+Here's the actual manifest.json from Orbis Galactic:
+
+```json manifest.json
+{
+  "Group": "TastySyntax",
+  "Name": "OrbisGalactic",
+  "Version": "1.4.0",
+  "Description": "A star wars mod for Hytale.",
+  "Authors": [
+    {
+      "Name": "Cerzix",
+      "Email": "",
+      "Url": "https://github.com/Cerzix"
+    },
+    {
+      "Name": "Viluron",
+      "Email": "",
+      "Url": "https://github.com/Viluron"
+    },
+    {
+      "Name": "Nelayx",
+      "Email": "",
+      "Url": "https://github.com/Nelayx"
+    },
+    {
+      "Name": "Holag",
+      "Email": "",
+      "Url": "https://github.com/xHolagx"
+    }
+  ],
+  "Website": "https://github.com/Tasty-Syntax/Orbis-Galactic",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "LoadBefore": {},
+  "DisabledByDefault": false,
+  "IncludesAssetPack": false,
+  "SubPlugins": []
+}
+```
+
+## Configuration Fields
+
+<ParamField path="Group" type="string" required>
+  The organization or team name that created the mod. Used for grouping mods from the same creator.
+  
+  Example: `"TastySyntax"`
+</ParamField>
+
+<ParamField path="Name" type="string" required>
+  The unique identifier name for the mod. Should match the mod folder name.
+  
+  Example: `"OrbisGalactic"`
+</ParamField>
+
+<ParamField path="Version" type="string" required>
+  The current version of the mod following semantic versioning (MAJOR.MINOR.PATCH).
+  
+  Example: `"1.4.0"`
+</ParamField>
+
+<ParamField path="Description" type="string" required>
+  A brief description of what the mod provides.
+  
+  Example: `"A star wars mod for Hytale."`
+</ParamField>
+
+<ParamField path="Authors" type="array" required>
+  An array of author objects containing contributor information.
+  
+  Each author object includes:
+  - `Name` (string): The author's display name
+  - `Email` (string): Contact email (can be empty)
+  - `Url` (string): Link to author's profile or repository
+</ParamField>
+
+<ParamField path="Website" type="string">
+  The official website or repository URL for the mod.
+  
+  Example: `"https://github.com/Tasty-Syntax/Orbis-Galactic"`
+</ParamField>
+
+<ParamField path="Dependencies" type="object">
+  Object mapping mod names to required version ranges. Mods listed here must be loaded before this mod.
+  
+  Example: `{"OtherMod": "^1.0.0"}`
+  
+  <Note>Orbis Galactic currently has no dependencies</Note>
+</ParamField>
+
+<ParamField path="OptionalDependencies" type="object">
+  Object mapping mod names to optional version ranges. These mods enhance functionality if present but aren't required.
+  
+  Example: `{"EnhancementMod": ">=2.0.0"}`
+</ParamField>
+
+<ParamField path="LoadBefore" type="object">
+  Object specifying mods that should be loaded after this mod. Used to control load order.
+  
+  Example: `{"CompatibilityMod": "*"}`
+</ParamField>
+
+<ParamField path="DisabledByDefault" type="boolean" default={false}>
+  Whether the mod should be disabled when first installed. Users must manually enable it.
+  
+  <Tip>Keep this `false` for mods intended for immediate use</Tip>
+</ParamField>
+
+<ParamField path="IncludesAssetPack" type="boolean" default={false}>
+  Indicates whether this mod includes custom asset packs (textures, models, etc.).
+  
+  Set to `true` if your mod includes assets in the Common/ directory.
+</ParamField>
+
+<ParamField path="SubPlugins" type="array" default={[]}>
+  Array of sub-plugin names that are part of this mod package.
+  
+  Example: `["OrbisGalactic_Weapons", "OrbisGalactic_Vehicles"]`
+</ParamField>
+
+## Best Practices
+
+<Warning>
+  Ensure the `Name` field matches your mod's folder name exactly. Mismatches can cause loading issues.
+</Warning>
+
+### Version Numbering
+
+Follow semantic versioning:
+- **MAJOR**: Incompatible API changes or major overhauls
+- **MINOR**: New features added in a backwards-compatible manner
+- **PATCH**: Backwards-compatible bug fixes
+
+### Author Information
+
+While `Email` can be left empty, providing a `Url` helps users:
+- Report issues
+- Follow development updates
+- Contribute to the project
+
+### Dependencies
+
+When adding dependencies, use version ranges:
+- `"^1.0.0"` - Compatible with 1.x.x versions
+- `"~1.2.0"` - Compatible with 1.2.x versions only
+- `">=1.0.0"` - Any version 1.0.0 or higher
+- `"*"` - Any version
+
+<Tip>
+  Test your mod thoroughly with the minimum and maximum versions specified in your dependency ranges.
+</Tip>

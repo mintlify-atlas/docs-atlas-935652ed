@@ -1,0 +1,227 @@
+---
+title: Blasters Reference
+description: Complete reference for all blaster types and their stats in Orbis Galactic
+---
+
+# Blasters Reference
+
+Complete reference for all blaster weapons available in Orbis Galactic, including stats, ammunition, and combat capabilities.
+
+## Overview
+
+Blasters are ranged energy weapons that fire bolts of concentrated plasma. They are the primary ranged weapons in the Orbis Galactic galaxy and come in various configurations for different combat scenarios.
+
+---
+
+## DC-15A Blaster Rifle
+
+<Card title="DC-15A" icon="gun">
+  **Quality:** Rare  
+  **Type:** Blaster Rifle  
+  **Scale:** 0.8
+
+  The standard issue blaster rifle for clone troopers.
+
+  ### Stats
+  - **Impact Damage:** 15
+  - **Bullet Spread:** 0.02
+  - **Rate of Fire:** Standard
+  - **Projectile Type:** Blaster Bolt (DC15A)
+
+  ### Features
+  - Reliable and well-balanced for most combat situations
+  - Standard accuracy suitable for medium-range engagements
+  - Clone trooper standard equipment
+  - Uses DC-15A specific blaster bolts
+
+  ### Usage Notes
+  The DC-15A is a versatile rifle perfect for players seeking a reliable ranged weapon. Its moderate damage and decent accuracy make it ideal for sustained firefights.
+
+  ### Crafting
+  - Requires: Laser Weapon Bench
+  - Category: OrbisGalactic.Blasters
+
+  ### Model Details
+  - Model: `Blaster_DC15A_Model.blockymodel`
+  - Texture: `Blaster_DC15A_Texture.png`
+  - Icon Scale: 0.4
+</Card>
+
+---
+
+## Cycler Rifle
+
+<Card title="Cycler Rifle" icon="crosshairs">
+  **Quality:** Epic  
+  **Type:** Sniper Rifle  
+  **Scale:** 0.7
+
+  A long range high velocity blaster rifle often used by Tusken Raiders.
+
+  ### Stats
+  - **Impact Damage:** 35
+  - **Bullet Spread:** None (Perfect accuracy)
+  - **Rate of Fire:** Slow (1 second fire delay)
+  - **Projectile Type:** Blaster Bolt (Cycler Rifle)
+
+  ### Features
+  - High damage per shot - over double the DC-15A
+  - Perfect accuracy with no bullet spread
+  - Long-range capabilities
+  - Slower rate of fire balanced by increased damage
+  - Custom firing sound effects
+
+  ### Usage Notes
+  The Cycler Rifle excels at long-range combat and precision shots. Its high damage makes it ideal for taking down tough enemies from a distance, but the slower fire rate means you need to make each shot count.
+
+  **Best for:**
+  - Long-range engagements
+  - Single high-value targets
+  - Sniper playstyle
+  - Precision shooting
+
+  ### Crafting
+  - Requires: Laser Weapon Bench
+  - Category: OrbisGalactic.Blasters
+
+  ### Model Details
+  - Model: `Blaster_CyclerRifle_Model.blockymodel`
+  - Texture: `Blaster_CyclerRifle_Texture.png`
+  - Icon Scale: 0.15
+  - Special: Custom Cycler Rifle firing sound
+</Card>
+
+---
+
+## Blaster Mechanics
+
+### Animations
+All blasters use the dual-handed rifle animation system with full support for:
+
+<Tabs>
+  <Tab title="Movement">
+    - **Idle:** Standing still with weapon ready
+    - **Walk:** Forward and backward walking animations
+    - **Run:** Forward and backward running animations
+    - **Sprint:** High-speed movement animation
+    - **Crouch:** Crouched stance with weapon
+    - **Crouch Walk:** Stealthy movement while crouched
+  </Tab>
+
+  <Tab title="Traversal">
+    - **Jump:** Standard and running jumps
+    - **Fall:** Falling and far-fall animations
+    - **Climb:** Ladder climbing (up, down, left, right)
+    - **Swim:** Full swimming animation set (idle, dive, float, sink)
+    - **Fly:** Flying with weapon equipped
+  </Tab>
+
+  <Tab title="Combat">
+    - **Shoot:** Standard firing animation
+    - **Shoot (Moving):** Firing while in motion
+    - **Guard Bash:** Melee attack with rifle butt
+    - **Flintlock Variants:** Charged shot mechanics
+    - **Interact:** Using items/objects while armed
+  </Tab>
+</Tabs>
+
+### Camera System
+
+<AccordionGroup>
+  <Accordion title="Pitch Control">
+    - **Angle Range:** -30° to +60°
+    - **Target Nodes:** Head, Left Shoulder, Right Shoulder
+    - **Purpose:** Vertical aiming
+  </Accordion>
+
+  <Accordion title="Yaw Control">
+    - **Angle Range:** -45° to +45°
+    - **Target Node:** Belly
+    - **Purpose:** Horizontal aiming
+  </Accordion>
+
+  <Accordion title="Wiggle Physics">
+    - **Pitch Weight:** 1.0
+    - **Roll Weight:** 0.1
+    - **X/Y/Z Deceleration:** 0.2
+    - **Purpose:** Natural weapon sway and movement
+  </Accordion>
+</AccordionGroup>
+
+### Projectile System
+
+Blasters fire energy bolts that:
+- Travel at high velocity
+- Have configurable spread patterns (accuracy)
+- Deal impact damage on hit
+- Use custom projectile models and effects
+- Have distinct visual trails
+
+<Note>
+  Each blaster type uses different projectile configurations:
+  - **DC-15A:** Balanced spread and damage
+  - **Cycler Rifle:** Perfect accuracy, high damage, slower fire rate
+</Note>
+
+---
+
+## Combat Tips
+
+<CardGroup cols={2}>
+  <Card title="DC-15A Best Practices" icon="shield">
+    - Use in medium-range combat
+    - Sustained fire on groups
+    - Reliable backup weapon
+    - Good for mobile combat
+  </Card>
+
+  <Card title="Cycler Rifle Best Practices" icon="crosshairs">
+    - Take your time to aim
+    - Target high-value enemies
+    - Position at range
+    - One shot, one kill approach
+  </Card>
+</CardGroup>
+
+---
+
+## Comparison Table
+
+| Feature | DC-15A | Cycler Rifle |
+|---------|--------|-------------|
+| **Quality** | Rare | Epic |
+| **Damage** | 15 | 35 |
+| **Accuracy** | Medium (0.02 spread) | Perfect (no spread) |
+| **Fire Rate** | Standard | Slow (1s delay) |
+| **Range** | Medium | Long |
+| **Best For** | Versatile combat | Precision sniping |
+| **Difficulty** | Easy | Medium |
+
+---
+
+## Crafting Requirements
+
+<Warning>
+  All blasters require a **Laser Weapon Bench** to craft. Make sure you have one placed in your base before attempting to create blaster weapons.
+</Warning>
+
+The Laser Weapon Bench is a workstation specifically designed to manufacture laser-based weaponry, including all blaster types and lightsabers.
+
+**To craft the bench:**
+- Check the Benches category in your crafting menu
+- Place in a convenient location in your base
+- Access the bench to view available blaster recipes
+
+---
+
+## Sound Effects
+
+Blasters feature immersive audio:
+- **Shooting:** Distinct firing sounds per weapon type
+- **Impact:** Hit confirmation sounds
+- **Reload/Interaction:** Weapon handling audio
+- **Special:** Cycler Rifle has unique firing sound effects
+
+<Tip>
+  The Cycler Rifle's unique firing sound can be heard across longer distances, alerting both allies and enemies to your position when fired.
+</Tip>

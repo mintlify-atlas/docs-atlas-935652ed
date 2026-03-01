@@ -1,0 +1,380 @@
+---
+title: Entities & Effects
+description: Reference for entity configurations, trails, visual effects, and movement systems
+---
+
+Entities in Orbis Galactic include visual effects, trails, model VFX, and movement configurations that define gameplay elements.
+
+## Entity System Overview
+
+The entity system is organized into several categories:
+
+<CardGroup cols={2}>
+  <Card title="Trails" icon="wand-magic-sparkles">
+    Visual trails for weapons and movement
+    
+    `Server/Entity/Trails/`
+  </Card>
+  
+  <Card title="Effects" icon="sparkles">
+    Status effects and particle systems
+    
+    `Server/Entity/Effects/`
+  </Card>
+  
+  <Card title="Model VFX" icon="cube">
+    3D model visual effects
+    
+    `Server/Entity/ModelVFX/`
+  </Card>
+  
+  <Card title="Movement Config" icon="person-running">
+    Entity movement and physics
+    
+    `Server/Entity/MovementConfig/`
+  </Card>
+</CardGroup>
+
+## Trails
+
+Trails create visual effects that follow weapon movements and actions. All trails use texture-based rendering with configurable properties.
+
+**Location**: `Server/Entity/Trails/`
+
+### Lightsaber Trails
+
+<AccordionGroup>
+  <Accordion title="Blue Lightsaber Trail">
+    **File**: `Lightsaber_Trail_Blue.json`
+    
+    ```json
+    {
+      "TexturePath": "Trails/White.png",
+      "LifeSpan": 2,
+      "Start": {
+        "Width": 1,
+        "Color": "#6beaff4f"
+      },
+      "End": {
+        "Width": 0.0,
+        "Color": "#6beaff4f"
+      },
+      "LightInfluence": 0.0,
+      "Smooth": true,
+      "RenderMode": "BlendAdd"
+    }
+    ```
+    
+    - **LifeSpan**: 2 seconds fade
+    - **Color**: Cyan blue (`#6beaff`)
+    - **Width**: 1 → 0 (tapers to point)
+    - **Render Mode**: Additive blending for glow effect
+  </Accordion>
+  
+  <Accordion title="Darksaber Trail">
+    **File**: `Darksaber_Trail.json`
+    
+    ```json
+    {
+      "TexturePath": "Trails/White.png",
+      "LifeSpan": 2,
+      "Start": {
+        "Width": 2.3,
+        "Color": "#ffffffb4"
+      },
+      "End": {
+        "Width": 0.3,
+        "Color": "#00000037"
+      },
+      "LightInfluence": 0.792,
+      "Smooth": true,
+      "RenderMode": "BlendLinear"
+    }
+    ```
+    
+    - **Unique Feature**: Black core with white edge
+    - **Width**: 2.3 → 0.3 (wider than standard)
+    - **Light Influence**: 0.792 (affected by lighting)
+    - **Render Mode**: Linear blending
+  </Accordion>
+</AccordionGroup>
+
+### Available Trail Types
+
+| Trail ID | Color | File Path |
+|----------|-------|----------|
+| Lightsaber_Trail_Blue | Cyan | `Lightsaber_Trail_Blue.json` |
+| Lightsaber_Trail_Green | Green | `Lightsaber_Trail_Green.json` |
+| Lightsaber_Trail_Red | Red | `Lightsaber_Trail_Red.json` |
+| Lightsaber_Trail_Purple | Purple | `Lightsaber_Trail_Purple.json` |
+| Lightsaber_Trail_Orange | Orange | `Lightsaber_Trail_Orange.json` |
+| Lightsaber_Trail_Gold | Gold | `Lightsaber_Trail_Gold.json` |
+| Lightsaber_Trail_White | White | `Lightsaber_Trail_White.json` |
+| Darksaber_Trail | Black/White | `Darksaber_Trail.json` |
+
+### Charged Trails
+
+Smaller trails for charged attacks:
+
+- `Trail_Small_Charged_Blue.json`
+- `Trail_Small_Charged_Gold.json`
+- `Trail_Small_Charged_Red.json`
+
+### Trail Configuration Properties
+
+<ResponseField name="TexturePath" type="string" required>
+  Path to trail texture file (usually `Trails/White.png`)
+</ResponseField>
+
+<ResponseField name="LifeSpan" type="number" required>
+  Duration in seconds the trail persists before fading (typically `2`)
+</ResponseField>
+
+<ResponseField name="Start" type="object" required>
+  Trail appearance at creation point
+  
+  - `Width` (number): Initial width in units
+  - `Color` (string): Hex color with alpha (`#RRGGBBAA`)
+</ResponseField>
+
+<ResponseField name="End" type="object" required>
+  Trail appearance at fade completion
+  
+  - `Width` (number): Final width (0 for taper to point)
+  - `Color` (string): Final hex color with alpha
+</ResponseField>
+
+<ResponseField name="LightInfluence" type="number" default="0.0">
+  How much scene lighting affects trail (0.0 = none, 1.0 = full)
+</ResponseField>
+
+<ResponseField name="Smooth" type="boolean" default="true">
+  Enable smooth interpolation between trail points
+</ResponseField>
+
+<ResponseField name="RenderMode" type="string" required>
+  Blending mode for rendering:
+  - `BlendAdd` - Additive (glow effect)
+  - `BlendLinear` - Standard alpha blending
+</ResponseField>
+
+## Effects
+
+Status effects and particle systems applied to entities.
+
+**Location**: `Server/Entity/Effects/`
+
+### Potion Effects
+
+#### Morph: Jawa
+
+**File**: `Effects/Potion/Potion_Morph_Jawa.json`
+
+```json
+{
+  "StatusEffectIcon": "Icons/ItemsGenerated/Potion_Purify.png",
+  "OverlapBehavior": "Overwrite",
+  "Duration": 180,
+  "ModelChange": "Jawa_Model",
+  "ApplicationEffects": {
+    "Particles": [
+      {
+        "SystemId": "Potion_Morph_Burst"
+      }
+    ],
+    "WorldSoundEventId": "Jawa_SFX_Conversation"
+  }
+}
+```
+
+**Properties:**
+- **Duration**: 180 seconds (3 minutes)
+- **ModelChange**: Transforms player into Jawa model
+- **Particles**: Morph burst effect on application
+- **Sound**: Jawa conversation sound on activation
+- **OverlapBehavior**: Overwrites existing morph effects
+
+### Effect Configuration Properties
+
+<ResponseField name="StatusEffectIcon" type="string">
+  UI icon path for status effect display
+</ResponseField>
+
+<ResponseField name="Duration" type="number">
+  Effect duration in seconds
+</ResponseField>
+
+<ResponseField name="OverlapBehavior" type="string">
+  How effect handles conflicts:
+  - `Overwrite` - Replaces existing effect
+  - `Stack` - Adds to existing effect
+  - `Ignore` - Prevented if effect exists
+</ResponseField>
+
+<ResponseField name="ModelChange" type="string">
+  Model ID to replace entity appearance
+</ResponseField>
+
+<ResponseField name="ApplicationEffects" type="object">
+  Effects triggered when status applied:
+  - `Particles` - Particle system IDs
+  - `WorldSoundEventId` - Sound event to play
+</ResponseField>
+
+## Model VFX
+
+Visual effects attached to 3D models.
+
+**Location**: `Server/Entity/ModelVFX/`
+
+### Weapon VFX
+
+#### Darksaber VFX
+
+**File**: `ModelVFX/Weapon/Lightsaber/ModelVFX_Darksaber.json`
+
+```json
+{
+  "SwitchTo": "Transparency",
+  "EffectDirection": "None",
+  "LoopOption": "Loop"
+}
+```
+
+**Properties:**
+- **SwitchTo**: Material shader switch to transparency
+- **EffectDirection**: No directional bias
+- **LoopOption**: Continuously looping effect
+
+### VFX Configuration Properties
+
+<ResponseField name="SwitchTo" type="string">
+  Material shader mode:
+  - `Transparency` - Enable alpha transparency
+  - `Opaque` - Solid rendering
+  - `Cutout` - Alpha cutout
+</ResponseField>
+
+<ResponseField name="EffectDirection" type="string">
+  Directional orientation:
+  - `None` - No direction
+  - `Up`, `Down`, `Forward`, etc.
+</ResponseField>
+
+<ResponseField name="LoopOption" type="string">
+  Animation looping behavior:
+  - `Loop` - Continuous loop
+  - `Once` - Play once
+  - `PingPong` - Forward and reverse
+</ResponseField>
+
+## Movement Configuration
+
+Defines entity physics and movement behavior.
+
+**Location**: `Server/Entity/MovementConfig/`
+
+### Mount: Speeder Bike
+
+**File**: `Mount_Speeder_Bike.json`
+
+<Expandable title="Full Configuration">
+
+```json
+{
+  "VelocityResistance": 0.001,
+  "JumpForce": 12,
+  "SwimJumpForce": 12,
+  "JumpBufferDuration": 0.3,
+  "JumpBufferMaxYVelocity": 1,
+  "Acceleration": 0.05,
+  "ComboAirSpeedMultiplier": 0.05,
+  "BaseSpeed": 30,
+  "MaxSpeedMultiplier": 1,
+  "MinSpeedMultiplier": 0.01,
+  "ClimbSpeed": 1.035,
+  "HorizontalFlySpeed": 1,
+  "VerticalFlySpeed": 1,
+  "WishDirectionGravityX": 0.5,
+  "WishDirectionGravityY": 0.5,
+  "WishDirectionWeightX": 0.5,
+  "WishDirectionWeightY": 0.5,
+  "CollisionExpulsionForce": 0.14,
+  "ForwardWalkSpeedMultiplier": 0.3,
+  "BackwardWalkSpeedMultiplier": 0.3,
+  "StrafeWalkSpeedMultiplier": 0.3,
+  "ForwardRunSpeedMultiplier": 1,
+  "BackwardRunSpeedMultiplier": 0.65,
+  "StrafeRunSpeedMultiplier": 0.8,
+  "ForwardCrouchSpeedMultiplier": 0.55,
+  "BackwardCrouchSpeedMultiplier": 0.4,
+  "StrafeCrouchSpeedMultiplier": 0.45,
+  "ForwardSprintSpeedMultiplier": 1.65,
+  "VariableJumpFallForce": 1,
+  "FallEffectDuration": 12,
+  "FallJumpForce": 0.2,
+  "FallMomentumLoss": 10.1,
+  "AutoJumpObstacleSpeedLoss": 0,
+  "AutoJumpObstacleSprintSpeedLoss": 0,
+  "AutoJumpObstacleEffectDuration": 0,
+  "AutoJumpObstacleSprintEffectDuration": 0,
+  "AutoJumpObstacleMaxAngle": 360,
+  "AutoJumpDisableJumping": false,
+  "AirDragMin": 0.0,
+  "AirDragMax": 0.0,
+  "AirDragMinSpeed": 0,
+  "AirDragMaxSpeed": 0,
+  "AirFrictionMin": 0.0,
+  "AirFrictionMax": 0.0,
+  "AirFrictionMinSpeed": 0,
+  "AirFrictionMaxSpeed": 0,
+  "AirSpeedMultiplier": 1.25,
+  "MinSlideEntrySpeed": 3,
+  "SlideExitSpeed": 1,
+  "ClimbSpeedLateral": 1,
+  "ClimbUpSprintSpeed": 1,
+  "ClimbDownSprintSpeed": 1
+}
+```
+
+</Expandable>
+
+**Key Properties:**
+- **BaseSpeed**: 30 (very fast mount)
+- **ForwardSprintSpeedMultiplier**: 1.65 (sprint boost)
+- **JumpForce**: 12 (high jump capability)
+- **AirSpeedMultiplier**: 1.25 (enhanced air control)
+
+### Movement Property Categories
+
+#### Core Movement
+- `BaseSpeed` - Base movement speed
+- `Acceleration` - Speed gain rate
+- `VelocityResistance` - Movement dampening
+
+#### Directional Speed Multipliers
+- `Forward/Backward/Strafe` × `Walk/Run/Crouch/Sprint`
+- Example: `ForwardSprintSpeedMultiplier: 1.65`
+
+#### Jump & Fall
+- `JumpForce` - Upward jump velocity
+- `SwimJumpForce` - Jump force in water
+- `FallEffectDuration` - Fall impact duration
+- `FallMomentumLoss` - Speed lost on landing
+
+#### Air Control
+- `AirSpeedMultiplier` - Movement speed in air
+- `AirDrag` - Air resistance
+- `AirFriction` - Air friction
+
+#### Climbing
+- `ClimbSpeed` - Vertical climb speed
+- `ClimbSpeedLateral` - Horizontal climb speed
+- `ClimbUpSprintSpeed` - Sprint climb up
+- `ClimbDownSprintSpeed` - Sprint climb down
+
+## Related Systems
+
+See also:
+- [Sound Events](/reference/sound-events) - Audio for entity actions
+- [Environments](/reference/environments) - World spawn settings
