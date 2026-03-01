@@ -1,0 +1,93 @@
+{
+  "projectType": "general",
+  "projectName": "Orbis Galactic",
+  "projectDescription": "A comprehensive Star Wars mod for Hytale featuring lightsabers, blasters, droids, and iconic Star Wars environments.",
+  "theme": "aspen",
+  "primaryColor": "#FFE81F",
+  "lightColor": "#4A90E2",
+  "darkColor": "#E63946",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Content",
+            "pages": [
+              "content/weapons",
+              "content/items",
+              "content/worlds",
+              "content/npcs",
+              "content/audio"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/manifest",
+              "configuration/animations",
+              "configuration/audio-normalization"
+            ]
+          },
+          {
+            "group": "Development",
+            "pages": [
+              "development/structure",
+              "development/contributing"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Items",
+            "pages": [
+              "reference/lightsabers",
+              "reference/blasters",
+              "reference/kyber-crystals",
+              "reference/blocks"
+            ]
+          },
+          {
+            "group": "Game Elements",
+            "pages": [
+              "reference/environments",
+              "reference/entities",
+              "reference/sound-events"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Multiple lightsaber variants with different colors and styles (Anakin, Luke, Darksaber)",
+    "Kyber crystal system with different colors and Force alignments",
+    "Blaster weapons including DC-15A and Cycler Rifle",
+    "Custom Star Wars environments (Tatooine, Ilum, Spaceship)",
+    "R2-D2 droid NPCs with multiple color variants",
+    "Extensive sound effects and music (lightsaber sounds, Cantina Band)",
+    "Custom blocks and structures (Imperial doors, tents, railings)",
+    "Spaceship召唤 system with Ship Call Beacon"
+  ],
+  "publicApiSurface": [
+    "Lightsaber variants: Anakin, Luke, Maul, Darksaber",
+    "Kyber Crystals: Clear, Blue, Green, Red, Gold, Purple, Orange, White",
+    "Blasters: DC-15A, Cycler Rifle, DL-44",
+    "Environments: Tatooine, Ilum, Spaceship",
+    "NPCs: R2-D2 (multiple colors), Jawas",
+    "Blocks: Imperial Blast Door, Mos Eisley Door, Imperial Lamp",
+    "Items: Ship Call Beacon, Laser Weapon Bench",
+    "Sound Events: Lightsaber sounds, Blaster sounds, Cantina Band music"
+  ]
+}
